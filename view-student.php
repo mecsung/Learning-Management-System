@@ -129,11 +129,6 @@
 						</button>
 					</a>
 					
-					<a href="">
-						<button type="button" class="btn btn-success">Sample
-							<i class="fas fa-file-download"></i>
-						</button>
-					</a>
 				</div>
 				<!-- REGISTRATION FORM -->
 				<div class="registration">
