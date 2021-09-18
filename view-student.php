@@ -122,6 +122,12 @@
 					<button type="submit" name="enroll-backbtn" class="btn btn-danger">Back
 						<i class="fas fa-backspace"></i>
 					</button>
+					
+					<a href="">
+						<button type="button" class="btn btn-success">Download PDF 
+							<i class="fas fa-file-download"></i>
+						</button>
+					</a>
 				</div>
 				<!-- REGISTRATION FORM -->
 				<div class="registration">
