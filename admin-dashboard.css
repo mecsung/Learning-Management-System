@@ -269,6 +269,12 @@ body{
 	border-radius: 2em;
 	padding: 10px;
 }
+.wrapper .content .registration .student-records .record-1 select {
+	border: 1px solid grey;
+	border-radius: 2em;
+	height: 30px;
+	width: 220px;
+}
 .wrapper .content .registration .student-records .record-1 button {
 	margin-left: 150px;
 }

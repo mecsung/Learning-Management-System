@@ -105,8 +105,20 @@
 					$fname = $row['fname'];
 					$mname = $row['mname'];
 					$lname = $row['lname'];
+					$entlev = $row['entlev'];
 					$name = strtoupper($lname) .", ". $fname ." ". substr($mname, 0, 1) . ".";
 				}
+				
+				$results = mysqli_query ($connection, "SELECT * FROM studentRecords where idnum='$idnum' ");
+				while ($rows = mysqli_fetch_array($results))
+				{
+					$term = $rows['term'];
+					$enroll_date = $rows['enroll_date'];
+					$program = $rows['program'];
+					$class = $rows['class'];
+					
+				}
+				
 			?>
 				<div class="error-handling">
 					<!-- DISPLAY ERRORS -->
@@ -138,12 +150,6 @@
 							<i class="fas fa-backspace"></i>
 						</button>
 					</a>
-					
-					<a href="">
-						<button type="button" class="btn btn-success">Download PDF 
-							<i class="fas fa-file-download"></i>
-						</button>
-					</a>
 				</div>
 			
 				<!-- REGISTRATION FORM -->
@@ -154,20 +160,52 @@
 					<div class="student-records">
 						<div class="record-1">
 							<input type="hidden" name="id" value="<?php echo $id; ?>" />
-							<b>ID number:</b><br><?php echo $idnum; ?>
+							<b>ID number:</b><br><?php echo "\t". $idnum; ?>
 								<input type="text" name="idnumber" value="<?php echo $idnum; ?>" class="form-input" hidden>
 							<br>
-							<b>Student name:</b><br><?php echo $name; ?>
+							<b>Student name:</b><br><?php echo "\t". $name; ?>
 								<input type="text" name="wholename" value="<?php echo $name ?>" class="form-input" hidden>
-
+							<br>
 							<hr></hr>
 
 							<b>Year:</b><br>
-								<input type="text" name="entlev" value="<?php echo $entlev; ?>" class="form-input" placeholder="year">
-							<br>
+							<div class="year">
+								<select name="entlev" class="form-input">
+									<option value="" selected disabled>-- Year --</option>
+									<option
+									<?php if (isset($entlev) && $entlev=="1st Year") echo "selected";?>
+									value="1st Year">1st Year</option>
+									<option
+									<?php if (isset($entlev) && $entlev=="2nd Year") echo "selected";?>
+									value="2nd Year">2nd Year</option>
+									<option
+									<?php if (isset($entlev) && $entlev=="3rd Year") echo "selected";?>
+									value="3rd Year">3rd Year</option>
+									<option
+									<?php if (isset($entlev) && $entlev=="4th Year") echo "selected";?>
+									value="4th Year">4th Year</option>
+								</select>
+								<br>
+							</div>
+							
 							<b>Term:</b><br>
-								<input type="text" name="term" value="<?php echo $term; ?>" class="form-input" placeholder="term">	
+							<select name="term" class="form-input">
+								<option value="" selected disabled>-- Term --</option>
+								<option
+								<?php if (isset($term) && $term=="1st Term") echo "selected";?>
+								value="1st Term">1st Term</option>
+								<option
+								<?php if (isset($term) && $term=="2nd Term") echo "selected";?>
+								value="2nd Term">2nd Term</option>
+								<option
+								<?php if (isset($term) && $term=="3rd Term") echo "selected";?>
+								value="3rd Term">3rd Term</option>
+							</select>
 							<br>
+							
+							
+							
+							
 							<b>Program:</b><br>
 								<input type="text" name="program" value="<?php echo $program; ?>" class="form-input" placeholder="program">
 							<br>
@@ -195,25 +233,18 @@
 									</thead>
 									<tbody>
 								
-								<?php
-									error_reporting(E_ERROR | E_PARSE);
-									
-									$result = mysqli_query ($connection, "SELECT * FROM studentRecords where idnum='$idnum' ");
-									while ($rows = mysqli_fetch_array($result))
-								{ ?>
+								
 									<tr>
-										<td> <?php echo $rows['entlev'] . " " . $rows['term']; ?> 		</td>
-										<td> <?php echo $rows['enroll_date']; ?>						</td>
-										<td> <?php echo $rows['program'] . " - " . $rows['class']; ?>	</td>
+										<td> <?php echo $entlev . " " . $term; ?> 		</td>
+										<td> <?php echo $enroll_date; ?>						</td>
+										<td> <?php echo $program . " - " . $class; ?>	</td>
 										<td>
 										
-										<a href="view-student.php?id=<?php echo $rows['id']; ?>">View Enrolled Courses</a>
+										<a href="enroll-courses.php?id=<?php echo $id; ?>">View Enrolled Courses</a>
 										
 										</td>
 									</tr>
-								<?php }
-									
-									?>
+								
 								</table>
 							</div>
 						</div>
