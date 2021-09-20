@@ -112,7 +112,9 @@ body{
 	background: #C2133D;
 }
 .wrapper .sidebar .sidebar-menu .item .menu-btn:hover{
-	color: #A41034;
+	background: #C2133D;
+	color: #FFF;
+	text-decoration: none;
 }
 .wrapper .sidebar .sidebar-menu .item .menu-btn i{
 	margin-right: 20px;
@@ -162,10 +164,10 @@ body{
 	font-size: 18px;
 }
 
-/********** BUTTONS **********/
+/********** STUDENT MODULE BUTTONS **********/
 .wrapper .content .button-enroll {
 	margin-bottom: 10px;
-	margin-left: 820px;
+	float: right;
 }
 
 /********** STUDENT ENROLLMENT FORM **********/
@@ -282,6 +284,77 @@ body{
 	width: 800px;
 }
 
+
+
+/********** COURSES MODULE BUTTONS **********/
+.wrapper .content .course-pdf {
+	margin-bottom: 10px;
+}
+/********** COURSES MODULE **********/
+.wrapper .content .courses {
+	background: #FFF;
+	box-shadow: 10px 10px 15px grey;
+	
+}
+.wrapper .content .courses .add-courses {
+	display: flex;
+	flex-direction: row;
+	height: 500px;
+}
+.wrapper .content .courses .add-courses .courses-1{
+	border-right: 1px solid grey;
+	width: 320px;
+	padding: 20px;
+}
+.wrapper .content .courses .add-courses .courses-1 input{
+	border: 1px solid grey;
+	border-radius: 2em;
+	height: 35px;
+	width: 280px;
+	padding: 10px;
+}
+.wrapper .content .courses .courses-1 select {
+	border: 1px solid grey;
+	border-radius: 2em;
+	height: 35px;
+	width: 280px;
+	padding: 5px;
+}
+.wrapper .content .courses .courses-1 button {
+	margin-top: 10px;
+	float: right;
+}
+.wrapper .content .courses .add-courses .courses-2{
+	width: 100%;
+	padding: 20px;
+}
+.wrapper .content .courses .add-courses .courses-2 .search{
+	position: relative;
+	margin-left: 100px;
+	float: right;
+	margin-bottom: 10px;
+}
+.wrapper .content .courses .add-courses .courses-2 .search input{
+	border: 1px solid #DFDFDF;
+	border-radius: 2em;
+	height: 40px;
+	width: 280px;
+	padding-left: 40px;
+	
+}
+.wrapper .content .courses .add-courses .courses-2 .search button{
+	position: absolute;
+	background: none;
+	border: none;
+	font-size: 20px;
+	padding: 5px;
+	margin-left: 5px;
+	color: #DFDFDF;
+}
+.wrapper .content .courses .add-courses .courses-2 .search button:hover{
+	color: #A41034;
+	font-size: 23px;
+}
 
 
 /******* landing-page.php *******/

@@ -7,7 +7,7 @@
     <head>
         <title> Courses </title>
 		<meta name="viewport" content="width=device-width,initial-scale=1">
-	
+		
 		<link rel="icon" type="image/x-icon" href="favicon.ico"/>
 		
 		<!-- CUSTOM STYLESHEET -->
@@ -16,10 +16,11 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
 		<script src="https://kit.fontawesome.com/575abfd474.js" crossorigin="anonymous"></script>
+		
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 	</head>
-    <body>
 
+    <body>
         <!--wrapper start-->
         <div class="wrapper">
             <!--header menu start-->
@@ -91,8 +92,96 @@
 				
 				<hr></hr>
 				
-				<h3>Course List</h3>
-				
+				<div class="course-pdf">
+					<button type="submit" class="btn btn-success">Download PDF
+						<i class="fas fa-file-download"></i>
+					</button>
+				</div>
+
+				<!--START OF FORM -->
+				<form action="courses-module.php" method="POST">
+
+					<div class="courses">
+						<div class="add-courses">
+							<div class="courses-1">
+								<h4>Register new course</h4>
+								<b>Course name: </b><input type="text" name="course_name" placeholder="course name">
+								<br>
+								<b>Course code: </b><input type="text" name="course_code" placeholder="course code">
+								<br>
+								<b>Units: </b><input type="number" name="units" placeholder="units">
+								
+								<b>Year level: </b>
+								<select name="entlev" class="form-input">
+									<option value="" selected disabled>-- Year --</option>
+									<option
+									<?php if (isset($entlev) && $entlev=="1st Year") echo "selected";?>
+									value="1st Year">1st Year</option>
+									<option
+									<?php if (isset($entlev) && $entlev=="2nd Year") echo "selected";?>
+									value="2nd Year">2nd Year</option>
+									<option
+									<?php if (isset($entlev) && $entlev=="3rd Year") echo "selected";?>
+									value="3rd Year">3rd Year</option>
+									<option
+									<?php if (isset($entlev) && $entlev=="4th Year") echo "selected";?>
+									value="4th Year">4th Year</option>
+								</select>
+								<b>Program: </b><input type="text" name="program" placeholder="program">
+								<br>
+								
+								<button type="submit" name="add-course" class="btn btn-danger">Add course
+									<i class="fas fa-folder-plus"></i>
+								</button>
+							</div>
+							
+							
+							
+							
+							<div class="courses-2">
+								<div class="search">
+									<button type="submit" name="search-course" class="">
+										<i class="fas fa-search"></i>
+									</button>
+									<input type="text" name="search" placeholder="type here...">
+								</div>
+								
+								<br>
+								<div class="table">
+									<table class="table table-bordered">
+										<thead>
+										<tr>
+											<th> Course code  		</th>
+											<th> Course name		</th>
+											<th> Units				</th>
+											<th> Year				</th>
+											<th> Program			</th>
+										</tr>
+										</thead>
+										<tbody>
+										
+										<?php
+											error_reporting(E_ERROR | E_PARSE);
+												
+											$result = mysqli_query ($connection, "SELECT * FROM courses");
+											while ($rows = mysqli_fetch_array($result))
+										{ ?>
+										<tr>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+										</tr>
+										<?php }
+											
+											?>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>	
+				</form>
 				
 				
 				
@@ -106,9 +195,6 @@
 			include("preloader.php")
 		?>
 	</div>
-
-
-
         <script type="text/javascript">
         $(document).ready(function(){
             $(".sidebar-btn").click(function(){
@@ -116,7 +202,6 @@
             });
         });
         </script>
-
     </body>
 </html>
       
