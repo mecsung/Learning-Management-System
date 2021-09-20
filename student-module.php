@@ -48,27 +48,27 @@
                         </a>
                     </li>
                     <li class="item">
-                        <a href="#.php" class="menu-btn">
+                        <a href="faculty-module.php" class="menu-btn">
                             <i class="fas fa-users"></i>Faculty
                         </a>
                     </li>
 					<li class="item">
-                        <a href="#.php" class="menu-btn">
+                        <a href="courses-module.php" class="menu-btn">
                             <i class="fas fa-clipboard-list"></i>Courses
                         </a>
                     </li>
                     <li class="item">
-                        <a href="#.php" class="menu-btn">
+                        <a href="classes-module.php" class="menu-btn">
                             <i class="fas fa-clipboard-list"></i>Classes
                         </a>
                     </li>
 					<li class="item">
-                        <a href="#.php" class="menu-btn">
+                        <a href="grading-module.php" class="menu-btn">
                             <i class="fas fa-file-excel"></i>Grading
                         </a>
                     </li>
 					<li class="item">
-                        <a href="#.php" class="menu-btn">
+                        <a href="users-module.php" class="menu-btn">
                             <i class="fas fa-users-cog"></i>Users
                         </a>
                     </li>
