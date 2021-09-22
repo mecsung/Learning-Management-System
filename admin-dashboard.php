@@ -94,11 +94,12 @@
 				<hr></hr>
 				
 				<h3>Overview</h3>
+				<?php 
+					date_default_timezone_set('Asia/Manila');
+					echo "Today is " . date("F j\, Y "	);	
+				?>
+				<div id="piechart_3d" style="width: 900px; height: 500px;"></div>
 				
-				<div class="">
-					
-				</div>
-
 			</div>
             <!--main container end-->
         </div>
@@ -125,22 +126,60 @@
 		  </div>
 		</div>
 		
-		
 		<div>
 			<?php
 				include("preloader.php")
 			?>
 		</div>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.bundle.js"></script>
 		
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"></script>
-        <script type="text/javascript">
+        
+		<script type="text/javascript">
         $(document).ready(function(){
             $(".sidebar-btn").click(function(){
                 $(".wrapper").toggleClass("collapse");
             });
         });
         </script>
+		
+		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+		<script type="text/javascript">
+		  google.charts.load("current", {packages:["corechart"]});
+		  google.charts.setOnLoadCallback(drawChart);
+		  function drawChart() {
+			var data = google.visualization.arrayToDataTable([
+				<?php
+					$res = mysqli_query($connection, "SELECT * FROM students");
+					$count = mysqli_num_rows($res);
+					
+					$first = mysqli_query($connection, "SELECT * FROM students WHERE entlev='1st Year'");
+					$c_first = mysqli_num_rows($first);
+					
+					$second = mysqli_query($connection, "SELECT * FROM students WHERE entlev='2nd Year'");
+					$c_second = mysqli_num_rows($second);
+					
+					$third = mysqli_query($connection, "SELECT * FROM students WHERE entlev='3rd Year'");
+					$c_third = mysqli_num_rows($third);
+					
+					$fourth = mysqli_query($connection, "SELECT * FROM students WHERE entlev='4th Year'");
+					$c_fourth = mysqli_num_rows($fourth);
+				?>
+				['Task', 'Hours per Day'],
+				['1st Year',	<?php echo $c_first; ?>],
+				['2nd Year',  	<?php echo $c_second; ?>],
+				['3rd Year', 	<?php echo $c_third; ?>],
+				['4th Year',    <?php echo $c_fourth; ?>]
+			]);
+		
+			var options = {
+			  title: 'Year Level',
+			  is3D: true,
+			};
 
+			var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
+			chart.draw(data, options);
+		  }
+		</script>
     </body>
 </html>
-      

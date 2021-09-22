@@ -161,15 +161,16 @@
 		
 		//********************* IF NO ERRORS ***************************
 		if (count($errors) == 0) {
+			date_default_timezone_set('Asia/Manila');
 			$reg_date = date("F j\, Y \| g:i A", time());
 			
 			$sql = "INSERT INTO students (idnum, fname, mname, lname, entlev,
-				gender, cnum, email, prevschool, hea, img, g_moral, NSO)
-			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+				gender, cnum, email, prevschool, hea, img, g_moral, NSO, reg_date)
+			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			$stmt = $connection->prepare($sql);
-			$stmt->bind_param('sssssssssssss', $idnum, $fname, $mname, $lname, 
+			$stmt->bind_param('ssssssssssssss', $idnum, $fname, $mname, $lname, 
 				$entlev, $gender, $cnum, $email, $prevschool, $hea, $image, 
-				$g_moral, $NSO);
+				$g_moral, $NSO, $reg_date);
 			
 			move_uploaded_file($_FILES['image']['tmp_name'], $target);
 			move_uploaded_file($_FILES['g_moral']['tmp_name'], "data/files/GMORAL/".$g_moral);
@@ -179,7 +180,6 @@
 				// LOGIN USER
 				$user_id = $connection->insert_id;
 				$_SESSION['id'] = $user_id;
-				$_SESSION['email'] = $email;
 				
 				// SEND VERIFICATION IN EMAIL
 				//sendVerificationEmail($email, $token, $OTP);
@@ -238,6 +238,7 @@
 		$term = htmlspecialchars($_POST['term']);
 		$program = htmlspecialchars($_POST['program']);
 		$class = htmlspecialchars($_POST['class']);
+		date_default_timezone_set('Asia/Manila');
 		$enroll_date = date("F j\, Y \| g:i A", time());
 		
 		// VALIDATION IF EMPTY
@@ -280,6 +281,31 @@
 			header("location: student-records.php?id=$id");
 		}
 		mysqli_close($connection);
+	}
+	
+	//************************* ADD NEW COURSE ****************************
+	if (isset($_POST['add-course'])) {
+		$course_name = htmlspecialchars($_POST['course_name']);
+		$course_code = htmlspecialchars($_POST['course_code']);
+		$units = htmlspecialchars($_POST['units']);
+		$entlev = htmlspecialchars($_POST['entlev']);
+		$program = htmlspecialchars($_POST['program']);
+		date_default_timezone_set('Asia/Manila');
+		$reg_date = date("F j\, Y \| g:i A", time());
+		
+		$sql = "INSERT INTO courses (course_name, course_code, units, entlev, program, reg_date)
+			VALUES (?, ?, ?, ?, ?, ?)";
+			$stmt = $connection->prepare($sql);
+			$stmt->bind_param('ssisss', $course_name, $course_code, $units, $entlev, 
+				$program, $reg_date);
+				
+		if ($stmt->execute()) {
+			header("location: courses-module.php");
+			exit();
+		}
+		else  {
+				$errors['db_error'] = "Database error: failed to register";
+		}
 	}
 	
 	

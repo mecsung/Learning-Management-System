@@ -74,11 +74,13 @@
                         </a>
                     </li>
 					
-					</li>
+					<!-- Button trigger modal -->	
 					<li class="item">
-						<a href="student-module.php?logout=1" class="menu-btn">
-							<i class="fas fa-sign-out-alt"></i>Logout
-						</a>
+						<div class="menu-btn">
+							<button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">
+								<i class="fas fa-sign-out-alt"></i>Logout
+							</button>
+						</div>	
 					</li>
                 </div>
             </div>
@@ -97,7 +99,7 @@
 			
 				<div class="search-box">
 					<input type="text" name="search" class="search-box" placeholder="Type to search...">
-					<button>
+					<button type="submit" name="button-search" value="search">
                         <i class="fas fa-search"></i>
 					</button>
 				</div>
@@ -109,9 +111,15 @@
 						<i class="fas fa-user-plus"></i>
 					</button>
 					
-					<button type="submit" class="btn btn-success">Download PDF
-						<i class="fas fa-file-download"></i>
+					<button type="submit" class="btn btn-success" name="pdf-btn">
+						<a href="downloadPDF.php" target="_blank">Download PDF
+							<i class="fas fa-file-download"></i>
+						</a>	
 					</button>
+				</div>
+				
+				<div class="page">
+					<label><?php echo "Page " . $_GET['page']; ?></label>
 				</div>
 				
 				<div class="table">
@@ -122,18 +130,88 @@
 							<th> Name				</th>
 							<th> Program & Class	</th>
 							<th> Year				</th>
+							<th> Registration Date	</th>
 							<th> Action				</th>
 						</tr>
 						</thead>
 						<tbody>
 					
 					<?php
+						
 						error_reporting(E_ERROR | E_PARSE);
 						
-						$result = mysqli_query ($connection, "SELECT * FROM students");
-						while ($rows = mysqli_fetch_array($result))
-					{ ?>
-						<tr>
+						// if search button is clicked
+						if (isset($_POST['button-search'])) {
+							$search = $_POST['search'];
+							
+							$result = mysqli_query($connection, "SELECT * FROM students
+							WHERE fname='$search' or lname='$search' or class='$search'
+							or program='$search' or entlev='$search'
+							or CONCAT(fname, ' ', mname, ' ', lname)='$search' or
+							CONCAT(fname, ' ', lname)='$search' ");
+							
+							if (mysqli_num_rows($result) == 0){ ?>
+								<div class="alert alert-danger" role="alert">
+									Cannot find student.
+								</div>
+							<?php }
+							
+							while ($row = mysqli_fetch_array($result))
+							{ ?>
+								<tr>
+									<td> <?php echo $row['idnum']; ?> 	</td>
+									<td>
+										<a href="view-student.php?id=<?php echo $row['id']; ?>">
+											<?php echo $row['fname'] ." ". substr($row['mname'], 0, 1) .". ". $row['lname']; ?> 
+										</a>
+									</td>
+									<td> <?php echo $row['program'] ." - ". $row['class']; ?> </td>
+									<td> <?php echo $row['entlev']; ?> 						</td>
+									<td> <?php echo $row['reg_date']; ?>					</td>
+									<td>
+										<!-- Button trigger modal -->
+										<button type="button" data-bs-toggle="modal" data-bs-target="#deleteModal">
+											<i class="fas fa-trash-alt"></i>
+										</button>
+									</td>
+								</tr>
+								
+								<!-- Delete Modal -->
+								<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+								  <div class="modal-dialog">
+									<div class="modal-content">
+									  <div class="modal-header">
+										<h6 class="modal-title" id="exampleModalLabel">Are you sure you want to delete this?</h6>
+										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+									  </div>
+									  <div class="modal-footer">
+										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+										
+										<button class="btn btn-danger">
+											<a href="delete.php?id=<?php echo $row['id']; ?>">Yes
+												<i class="fas fa-trash-alt"></i>
+											</a>
+										</button>
+									  </div>
+									</div>
+								  </div>
+								</div>
+					<?php }
+						} else {
+							$page = $_GET['page'];
+							if ($page == "" || $page == "1"){
+								$page1 = 0;
+							}
+							else {
+								$page1 = ($page*5)-5;
+							}
+							
+							error_reporting(E_ERROR | E_PARSE);
+							
+							$res = mysqli_query ($connection, "SELECT * FROM students Limit $page1,5 ");
+							while ($rows = mysqli_fetch_array($res)) {
+						?>
+							<tr>
 							<td> <?php echo $rows['idnum']; ?> 	</td>
 							<td>
 								<a href="view-student.php?id=<?php echo $rows['id']; ?>">
@@ -142,40 +220,98 @@
 							</td>
 							<td> <?php echo $rows['program'] ." - ". $rows['class']; ?> </td>
 							<td> <?php echo $rows['entlev']; ?> 						</td>
+							<td> <?php echo $rows['reg_date']; ?>							</td>
 							<td>
-								<a href="Delete.php?id=<?php echo $rows['id']; ?>" onclick="return checkdelete()">
-									<i class="fas fa-trash-alt" aria-hidden="true" style="color: black;"></i>
-								</a>
-								
+								<!-- Button trigger modal -->
+								<button type="button" data-bs-toggle="modal" data-bs-target="#deleteModal">
+									<i class="fas fa-trash-alt"></i>
+								</button>
+							</a>
 							</td>
 						</tr>
-					<?php }
-						
-						?>
+							
+						<!-- Delete Modal -->
+						<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+						  <div class="modal-dialog">
+							<div class="modal-content">
+							  <div class="modal-header">
+								<h6 class="modal-title" id="exampleModalLabel">Are you sure you want to delete this?</h6>
+								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							  </div>
+							  <div class="modal-footer">
+								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+								
+								<button class="btn btn-danger">
+									<a href="delete.php?id=<?php echo $rows['id']; ?>">Yes
+										<i class="fas fa-trash-alt"></i>
+									</a>
+								</button>
+							  </div>
+							</div>
+						  </div>
+						</div>
+
+					<?php	}	
+						}
+					?>
+					</tbody>
 					</table>
 				</div>
 				
-				<div class="showEntry">
-					<p>Showing
-					<input type="text" class="entry-box" name="entry" size="1px">
-					of 1 entries</p>
-				</div>
+				<nav aria-label="Page navigation example">
+				  <ul class="pagination justify-content-end">
+					<?php
+						$res1 = mysqli_query($connection, "SELECT * FROM students");
+						$count = mysqli_num_rows($res1);
+						$a = $count/5;
+						$a = ceil($a);
+						for ($b=1; $b<=$a; $b++) { ?>
+							<li class="page-item"><a class="page-link" 
+							href="student-module.php?page=<?php echo $b ." " ;?>"><?php echo $b; ?></a>
+							</li>
+						
+						<?php
+						}
+						?>
+				  </ul>
+				</nav>
+
 			</form>
 			<!--END OF FORM -->
-			
 			</div>
             <!--main container end-->
         </div>
         <!--wrapper end-->
-
-	<div>
-		<?php
-			include("preloader.php")
-		?>
-	</div>
-
-
-
+		
+		<!-- Modal -->
+		<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+			<div class="modal-content">
+			  <div class="modal-header">
+				<h6 class="modal-title" id="exampleModalLabel">Are you sure you want to logout?</h6>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			  </div>
+			  <div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				
+				<button class="btn btn-danger">
+					<a href="admin-dashboard.php?logout=1" class="menu-btn">
+						<i class="fas fa-sign-out-alt"></i>Logout
+					</a>
+				</button>
+			  </div>
+			</div>
+		  </div>
+		</div>
+		
+		<div>
+			<?php
+				include("preloader.php")
+			?>
+		</div>
+		
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"></script>
+        
         <script type="text/javascript">
         $(document).ready(function(){
             $(".sidebar-btn").click(function(){

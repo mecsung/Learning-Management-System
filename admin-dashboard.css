@@ -31,7 +31,7 @@ body{
 }
 .wrapper .header .header-menu .title{
   color: #fff;
-  font-size: 25px;
+  font-size: 20px;
   text-transform: uppercase;
   font-weight: 900;
 }
@@ -156,9 +156,17 @@ body{
 }
 
 /********** STUDENT MODULE BUTTONS **********/
+.wrapper .content .page label {
+	margin-top: 18px;
+	font-size: 14px;
+}
 .wrapper .content .button-enroll {
 	margin-bottom: 10px;
 	float: right;
+}
+.wrapper .content .button-enroll .btn a{
+	color: #FFF;
+	text-decoration: none;
 }
 .wrapper .content button {
 	font-size: 14px;
@@ -169,7 +177,14 @@ body{
 .wrapper .content .table table tr td a {
 	text-decoration: none;
 }
-
+.wrapper .content .table table tr td button {
+	border: none;
+	background: none;
+}
+.wrapper .content .table .modal .modal-dialog .modal-content {
+	background: #FFF;
+	border: none;
+}
 /********** STUDENT ENROLLMENT FORM **********/
 .wrapper .content .back-btn{
 	margin-bottom: 10px;
@@ -280,18 +295,19 @@ body{
 	flex-direction: row;
 }
 .wrapper .content .registration .student-records .record-1 {
+	font-size: 14px;
 	border-right: 1px solid grey;
 	width: 250px;
 }
 .wrapper .content .registration .student-records .record-1 input {
 	width: 220px;
 	height: 30px;
-	border: 1px solid grey;
+	border: 1px solid #DFDFDF;
 	border-radius: 2em;
 	padding: 10px;
 }
 .wrapper .content .registration .student-records .record-1 select {
-	border: 1px solid grey;
+	border: 1px solid #DFDFDF;
 	border-radius: 2em;
 	height: 30px;
 	width: 220px;
@@ -313,7 +329,6 @@ body{
 .wrapper .content .courses {
 	background: #FFF;
 	box-shadow: 10px 10px 15px grey;
-	
 }
 .wrapper .content .courses .add-courses {
 	display: flex;
@@ -374,7 +389,24 @@ body{
 	color: #A41034;
 	font-size: 23px;
 }
-
+.modal .modal-dialog .modal-content .modal-body label {
+	font-size: 14px;
+}
+.modal .modal-dialog .modal-content .modal-body input {
+	font-size: 14px;
+	width: 300px;
+	height: 35px;
+	padding: 10px;
+	border: 1px solid #DFDFDF;
+	border-radius: 2em;
+}
+.modal .modal-dialog .modal-content .modal-body select {
+	font-size: 14px;
+	width: 300px;
+	height: 35px;
+	border: 1px solid #DFDFDF;
+	border-radius: 2em;
+}
 
 /******* landing-page.php *******/
 .wrapper .box{

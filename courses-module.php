@@ -74,11 +74,13 @@
                         </a>
                     </li>
 					
-					</li>
+					<!-- Button trigger modal -->	
 					<li class="item">
-						<a href="student-module.php?logout=1" class="menu-btn">
-							<i class="fas fa-sign-out-alt"></i>Logout
-						</a>
+						<div class="menu-btn">
+							<button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">
+								<i class="fas fa-sign-out-alt"></i>Logout
+							</button>
+						</div>	
 					</li>
                 </div>
             </div>
@@ -91,8 +93,13 @@
 				</div>
 				
 				<hr></hr>
-				
+
 				<div class="course-pdf">
+					<button class="btn btn-danger" type="button" data-bs-toggle="modal" 
+					data-bs-target="#addCourse">Add course
+						<i class="fas fa-folder-plus"></i>
+					</button>
+					
 					<button type="submit" class="btn btn-success">Download PDF
 						<i class="fas fa-file-download"></i>
 					</button>
@@ -103,41 +110,6 @@
 
 					<div class="courses">
 						<div class="add-courses">
-							<div class="courses-1">
-								<h4>Register new course</h4>
-								<b>Course name: </b><input type="text" name="course_name" placeholder="course name">
-								<br>
-								<b>Course code: </b><input type="text" name="course_code" placeholder="course code">
-								<br>
-								<b>Units: </b><input type="number" name="units" placeholder="units">
-								
-								<b>Year level: </b>
-								<select name="entlev" class="form-input">
-									<option value="" selected disabled>-- Year --</option>
-									<option
-									<?php if (isset($entlev) && $entlev=="1st Year") echo "selected";?>
-									value="1st Year">1st Year</option>
-									<option
-									<?php if (isset($entlev) && $entlev=="2nd Year") echo "selected";?>
-									value="2nd Year">2nd Year</option>
-									<option
-									<?php if (isset($entlev) && $entlev=="3rd Year") echo "selected";?>
-									value="3rd Year">3rd Year</option>
-									<option
-									<?php if (isset($entlev) && $entlev=="4th Year") echo "selected";?>
-									value="4th Year">4th Year</option>
-								</select>
-								<b>Program: </b><input type="text" name="program" placeholder="program">
-								<br>
-								
-								<button type="submit" name="add-course" class="btn btn-danger">Add course
-									<i class="fas fa-folder-plus"></i>
-								</button>
-							</div>
-							
-							
-							
-							
 							<div class="courses-2">
 								<div class="search">
 									<button type="submit" name="search-course" class="">
@@ -167,11 +139,11 @@
 											while ($rows = mysqli_fetch_array($result))
 										{ ?>
 										<tr>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td></td>
+											<td><?php echo $rows['course_name']; ?></td>
+											<td><?php echo $rows['course_code']; ?></td>
+											<td><?php echo $rows['units']; ?></td>
+											<td><?php echo $rows['entlev']; ?></td>
+											<td><?php echo $rows['program']; ?></td>
 										</tr>
 										<?php }
 											
@@ -182,19 +154,99 @@
 						</div>
 					</div>	
 				</form>
-				
-				
-				
 			</div>
             <!--main container end-->
         </div>
         <!--wrapper end-->
+		
+		<!-- Modal -->
+		<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+			<div class="modal-content">
+			  <div class="modal-header">
+				<h6 class="modal-title" id="exampleModalLabel">Are you sure you want to logout?</h6>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			  </div>
+			  <div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				
+				<button class="btn btn-danger">
+					<a href="admin-dashboard.php?logout=1" class="menu-btn">
+						<i class="fas fa-sign-out-alt"></i>Logout
+					</a>
+				</button>
+			  </div>
+			</div>
+		  </div>
+		</div>
+		
+		<!-- Add Course Modal -->
+		<div class="modal fade" id="addCourse" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		  <div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+			  <div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Register New Course</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			  </div>
+			  
+				<form action="courses-module.php" method="POST">
+					<div class="modal-body">
+						<label>Course name: </label><br>
+						<input type="text" name="course_name" placeholder="course name">
+						<br>
+						<label>Course code: </label><br>
+						<input type="text" name="course_code" placeholder="course code">
+						<br>
+						<label>Units: </label><br>
+						<input type="number" name="units" placeholder="units">
+						<br>
+						<label>Year level: </label><br>
+						<select name="entlev" class="form-input">
+							<option value="" selected disabled>-- Year --</option>
+							<option
+								<?php if (isset($entlev) && $entlev=="1st Year") echo "selected";?>
+								value="1st Year">1st Year
+							</option>
+							<option
+								<?php if (isset($entlev) && $entlev=="2nd Year") echo "selected";?>
+								value="2nd Year">2nd Year
+							</option>
+							<option
+								<?php if (isset($entlev) && $entlev=="3rd Year") echo "selected";?>
+								value="3rd Year">3rd Year
+							</option>
+							<option
+								<?php if (isset($entlev) && $entlev=="4th Year") echo "selected";?>
+									value="4th Year">4th Year
+							</option>
+						</select>
+						<br>
+						<label>Program: </label><br>
+						<input type="text" name="program" placeholder="program">
+						<br>
+					</div>
+				
 
-	<div>
-		<?php
-			include("preloader.php")
-		?>
-	</div>
+					<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					
+					<button type="submit" name="add-course" class="btn btn-danger">Add course
+						<i class="fas fa-folder-plus"></i>
+					</button>
+				</form>
+			  </div>
+			</div>
+		  </div>
+		</div>
+		
+		<div>
+			<?php
+				include("preloader.php")
+			?>
+		</div>
+		
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"></script>
+        
         <script type="text/javascript">
         $(document).ready(function(){
             $(".sidebar-btn").click(function(){

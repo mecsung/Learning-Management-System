@@ -74,11 +74,13 @@
                         </a>
                     </li>
 					
-					</li>
+					<!-- Button trigger modal -->	
 					<li class="item">
-						<a href="student-module.php?logout=1" class="menu-btn">
-							<i class="fas fa-sign-out-alt"></i>Logout
-						</a>
+						<div class="menu-btn">
+							<button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">
+								<i class="fas fa-sign-out-alt"></i>Logout
+							</button>
+						</div>	
 					</li>
                 </div>
             </div>
@@ -92,7 +94,16 @@
 				
 				<hr></hr>
 				
-				<h3>Class List</h3>
+				<div class="course-pdf">
+					<button class="btn btn-danger" type="button" data-bs-toggle="modal" 
+					data-bs-target="#addCourse">Create new Program
+						<i class="fas fa-folder-plus"></i>
+					</button>
+					
+					<button type="submit" class="btn btn-success">Download PDF
+						<i class="fas fa-file-download"></i>
+					</button>
+				</div>
 				
 				
 				
@@ -101,15 +112,68 @@
             <!--main container end-->
         </div>
         <!--wrapper end-->
+		
+		<!-- Modal -->
+		<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+			<div class="modal-content">
+			  <div class="modal-header">
+				<h6 class="modal-title" id="exampleModalLabel">Are you sure you want to logout?</h6>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			  </div>
+			  <div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				
+				<button class="btn btn-danger">
+					<a href="admin-dashboard.php?logout=1" class="menu-btn">
+						<i class="fas fa-sign-out-alt"></i>Logout
+					</a>
+				</button>
+			  </div>
+			</div>
+		  </div>
+		</div>
+		
+		<!-- Add Class Modal -->
+		<div class="modal fade" id="addCourse" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		  <div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+			  <div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Register New Program</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			  </div>
+			  
+			  <div class="modal-body">
+				<label>Program name: </label><br>
+				<input type="text" name="program_name" placeholder="course name">
+				<br>
+				<label>Program code: </label><br>
+				<input type="text" name="program_code" placeholder="program code">
+				<br>
+				<label>Description: </label><br>
+				<input type="text" name="desc" placeholder="description">
+				<br>
+			  </div>
+			  
+			  <div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				
+				<button type="submit" name="add-course" class="btn btn-danger">Save
+					<i class="fas fa-folder-plus"></i>
+				</button>
+			  </div>
+			</div>
+		  </div>
+		</div>
+		
+		<div>
+			<?php
+				include("preloader.php")
+			?>
+		</div>
 
-	<div>
-		<?php
-			include("preloader.php")
-		?>
-	</div>
-
-
-
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"></script>
+        
         <script type="text/javascript">
         $(document).ready(function(){
             $(".sidebar-btn").click(function(){
