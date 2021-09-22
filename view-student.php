@@ -16,7 +16,8 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
 		<script src="https://kit.fontawesome.com/575abfd474.js" crossorigin="anonymous"></script>
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+		<!-- BOOTSRAP -->
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet">
 	</head>
     <body>
 
@@ -140,7 +141,7 @@
 						<center>
 							<img src="data/images/<?php echo $img; ?>" alt="">
 							<br>
-							<h4>Primary</h4>
+							<h5>Primary</h5>
 							<b>Student number:</b><?php echo "\t" . $idnum; ?>
 							<br>
 							<b>First name:</b><?php echo "\t" . $fname; ?>
@@ -153,13 +154,13 @@
 						</div>
 						
 						<div class="student-info">
-						<h4>Contact</h4>
+						<h5>Contact</h5>
 							<b>Email Address:</b><?php echo "\t" . $email; ?>
 							<br>
 							<b>Contact no:</b><?php echo "\t" . $cnum; ?>
 							<br>
 							<hr></hr>
-						<h4>Personal</h4>
+						<h5>Personal</h5>
 							<b>Gender:</b><?php echo "\t" . $gender; ?>
 							<br>
 							<b>Highest Education:</b><?php echo "\t" . $hea; ?>
@@ -167,7 +168,7 @@
 							<b>Last School Attended:</b><?php echo "\t" . $prevschool; ?>
 							<br>
 							<hr></hr>
-						<h4>Other</h4>
+						<h5>Other</h5>
 							<input type="checkbox" checked disabled="disabled" >
 							<b>Good Moral:</b>
 							<a href="data/files/GMORAL/<?php echo $row['g_moral']; ?>"><?php echo $g_moral; ?></a>
@@ -195,16 +196,16 @@
 							?>
 						
 						
-							<b>Year:</b><br>
+							<label>Year:</label><br>
 								<input type="text" value="<?php echo $year; ?>" class="form-input" disabled>
 							<br>
-							<b>Term:</b><br>
+							<label>Term:</label><br>
 								<input type="text" value="<?php echo $term; ?>" class="form-input"disabled>	
 							<br>
-							<b>Program:</b><br>
+							<label>Program:</label><br>
 								<input type="text" value="<?php echo $program; ?>" class="form-input" disabled>
 							<br>
-							<b>Class:</b><br>
+							<label>Class:</label><br>
 								<input type="text" value="<?php echo $class; ?>" class="form-input" disabled>
 							<br><br>
 

@@ -14,9 +14,11 @@
         <link rel="stylesheet" href="admin-dashboard.css">
 		
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
+		<!-- FONT ASWESOME -->
 		<script src="https://kit.fontawesome.com/575abfd474.js" crossorigin="anonymous"></script>
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+		<!-- BOOTSRAP -->
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet">
 	</head>
     <body>
 	
@@ -73,11 +75,13 @@
                         </a>
                     </li>
 					
-					</li>
+					<!-- Button trigger modal -->	
 					<li class="item">
-						<a href="admin-dashboard.php?logout=1" class="menu-btn">
-							<i class="fas fa-sign-out-alt"></i>Logout
-						</a>
+						<div class="menu-btn">
+							<button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">
+								<i class="fas fa-sign-out-alt"></i>Logout
+							</button>
+						</div>	
 					</li>
                 </div>
             </div>
@@ -99,13 +103,36 @@
             <!--main container end-->
         </div>
         <!--wrapper end-->
+
+		<!-- Modal -->
+		<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+			<div class="modal-content">
+			  <div class="modal-header">
+				<h6 class="modal-title" id="exampleModalLabel">Are you sure you want to logout?</h6>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			  </div>
+			  <div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				
+				<button class="btn btn-danger">
+					<a href="admin-dashboard.php?logout=1" class="menu-btn">
+						<i class="fas fa-sign-out-alt"></i>Logout
+					</a>
+				</button>
+			  </div>
+			</div>
+		  </div>
+		</div>
+		
 		
 		<div>
 			<?php
 				include("preloader.php")
 			?>
 		</div>
-	
+		
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"></script>
         <script type="text/javascript">
         $(document).ready(function(){
             $(".sidebar-btn").click(function(){
