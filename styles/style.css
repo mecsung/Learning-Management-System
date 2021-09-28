@@ -8,19 +8,23 @@ body{
 	height: 100%;
 	background-position: center;
 	background-repeat: no-repeat;
-	background-size: cover;
-}
+	background-size: 100% auto;
 
+}
 .container .box{
 	display: flex;
 	flex-direction: row;
-	height: 100%;
+	height: auto;
 	width: 100%;
 }
 /***** LEFT SIDE *****/
 .container .box .left{
+	height: auto;
 	width: 50%;
 	background: #A51C30;
+}
+.container .box .left .name img{
+	height: 100vh;
 }
 /***** RIGHT SIDE *****/
 .container .box .right{
@@ -29,6 +33,11 @@ body{
 	color: #FFF;
 	padding: 50px;
 	width: 50%;
+	height: auto;
+}
+.container .box .right .form {
+	height: 100%;
+	width: 100%;	
 }
 /***** FORM TEXTBOX *****/
 .container .box .right .inputs input{

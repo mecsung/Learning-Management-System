@@ -8,7 +8,7 @@
         <title> Student Records </title>
 		<meta name="viewport" content="width=device-width,initial-scale=1">
 	
-		<link rel="icon" type="image/x-icon" href="favicon.ico"/>
+		<link rel="icon" type="image/x-icon" href="styles/favicon.ico"/>
 		
 		<!-- CUSTOM STYLESHEET -->
         <link rel="stylesheet" href="admin-dashboard.css">
@@ -197,10 +197,30 @@
 							</select>
 							<br>
 							<b>Program:</b><br>
-								<input type="text" name="program" value="<?php echo $program; ?>" class="form-input" placeholder="program">
-							<br>
+							<?php
+								$output = mysqli_query ($connection, "SELECT * FROM classes");
+							?>
+							<select name="program" class="form-input">
+								<option value="" selected disabled>-- Program --</option>
+								<?php while ($row1 = mysqli_fetch_array($output)):; ?>
+								<option>
+									<?php echo $row1[1]; ?>
+								</option>
+								<?php endwhile; ?>
+							</select>
+							
 							<b>Class:</b><br>
-								<input type="text" name="class" value="<?php echo $class; ?>" class="form-input" placeholder="class">
+							<?php
+								$outputs = mysqli_query ($connection, "SELECT DISTINCT class_name FROM sections");
+							?>
+							<select name="class" class="form-input">
+								<option value="" selected disabled>-- Class --</option>
+								<?php while ($row2 = mysqli_fetch_array($outputs)){ ?>
+								<option>
+									<?php echo $row2['class_name']; ?>
+								</option>
+								<?php } ?>
+							</select>
 							<br><br>
 							
 							<button type="submit" name="addrecord" class="btn btn-success">Add 
@@ -224,9 +244,19 @@
 									<?php $result = mysqli_query ($connection, "SELECT * FROM studentRecords WHERE idnum='$idnum' ");
 									while ($hori = mysqli_fetch_array($result)) { ?>
 										<tr>
+											<?php
+												$string = $hori['program'];
+
+												$expr = '/(?<=\s|^)[a-z]/i';
+												preg_match_all($expr, $string, $matches);
+
+												$imp = implode('', $matches[0]);
+												$short = strtoupper($imp);
+											?>
+											
 											<td> <?php echo $hori['entlev'] . " " . $hori['term']; ?> 		</td>
 											<td> <?php echo $hori['enroll_date']; ?>							</td>
-											<td> <?php echo $hori['program'] . " - " . $hori['class']; ?>	</td>
+											<td> <?php echo $short . " - " . $hori['class']; ?>	</td>
 											<td>
 											
 											<a href="enroll-courses.php?id=<?php echo $id; ?>">View Enrolled Courses</a>

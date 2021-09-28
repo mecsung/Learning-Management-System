@@ -89,24 +89,32 @@
             <!--main container start-->
             <div class="content">
 				<div class="directory">
-					<p>Classes Module / </p>
+					<p>Classes Module / View Program Classes</p>
 				</div>
 				
 				<hr></hr>
 				
 				<div class="course-pdf">
-					<button class="btn btn-danger" type="button" data-bs-toggle="modal" 
-					data-bs-target="#addCourse">Create new Program
-						<i class="fas fa-folder-plus"></i>
-					</button>
+                    <a href="classes-module.php" style="text-decoration: none;">
+						<button type="button" class="btn btn-danger">Back 
+							<i class="fas fa-backspace"></i>
+						</button>
+					</a>
 					
 					<button type="submit" class="btn btn-success">Download PDF
 						<i class="fas fa-file-download"></i>
 					</button>
 				</div>
-				
-				<form action="classes-module.php" method="POST">
 
+                <!-- DISPLAY ERRORS -->
+                <?php if (count($errors) > 0 ): ?>
+                    <?php foreach ($errors as $error): ?>
+                    <li><?php echo $error; ?></li>
+                    <?php endforeach; echo "<br>"; ?>
+                <?php endif; ?>
+
+				<form action="view-program.php" method="POST">
+               
 					<div class="courses">
 						<div class="add-courses">
 							<div class="courses-2">
@@ -116,43 +124,62 @@
 									</button>
 									<input type="text" name="search" placeholder="type here...">
 								</div>
-								
 								<br>
-								<div class="table">
+								
+                                <?php
+                                    $id = $_GET['id'];
+
+                                    $result = mysqli_query ($connection, "SELECT * FROM classes WHERE id='$id'");
+                                    while ($cols = mysqli_fetch_array($result)) {
+                                        $id = $cols['id'];
+                                        $program_name = $cols['program_name'];
+                                        $program_code = $cols['program_code'];
+                                        $pdescription = $cols['pdescription'];
+                                    }
+                                ?>
+                                
+                                <h5><?php echo $program_name . " (" . $program_code . ") "; ?></h5>
+                                
+                                <div class="pdescription">
+                                    <b>Descrption : </b>
+                                    <?php echo $pdescription; ?>
+                                </div> 
+                                
+                                <div class="table">
 									<table class="table table-bordered">
 										<thead>
 										<tr>
-											<th> Program code  		</th>
-											<th> Prgram name		</th>
-											<th> Date				</th>
+											<th> Classes 	                  </th>
+											<th class="th">
+                                                <!-- Button trigger modal -->
+                                                <button type="button" data-bs-toggle="modal" data-bs-target="#addClass">
+                                                <i class="fas fa-plus-square"></i>
+                                                </button>    
+                                            </th>
 										</tr>
 										</thead>
 										<tbody>
-										
-										<?php
-											error_reporting(E_ERROR | E_PARSE);
-												
-											$result = mysqli_query ($connection, "SELECT * FROM classes");
-											while ($rows = mysqli_fetch_array($result))
-										{ ?>
-										<tr>
-											<td>
-												<a href="view-program.php?id=<?php echo $rows['id']; ?>"><?php echo $rows['program_name']; ?></a>
-											</td>
-											<td><?php echo $rows['program_code']; ?></td>
-											<td><?php echo $rows['date_created']; ?></td>
+
+                                        <?php
+                                            $output = mysqli_query ($connection, "SELECT * FROM sections WHERE program='$program_name'");
+                                            While ($rows = mysqli_fetch_array($output)) { ?>
+                                        <tr>
+                                            <td><?php echo $rows['class_name']; ?></td>
+											<td class="th">
+                                                <!-- Button trigger modal -->
+                                                <button type="button" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </button>
+                                            </td>
 										</tr>
-										<?php }
-											
-											?>
+                                        <?php } ?>
 									</table>
 								</div>
+
 							</div>
 						</div>
 					</div>	
 				</form>
-				
-				
 			</div>
             <!--main container end-->
         </div>
@@ -179,6 +206,58 @@
 		  </div>
 		</div>
 		
+        <!-- Add Class Modal -->
+        <div class="modal fade" id="addClass" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		  <div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+			  <div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Add New Class</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			  </div>
+
+			  	<form action="view-program.php" method="POST">
+					<div class="modal-body">
+                        <input type="hidden" name="program" value="<?php echo $program_name; ?>" >
+                        <input type="hidden" name="id" value="<?php echo $id; ?>" >
+						<label>Class Name: </label><br>
+						<input type="text" name="class_name" placeholder="format: YYNL eg. 211A">
+						<br>
+					</div>
+				
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					
+						<button type="submit" name="add-section" class="btn btn-danger">Add
+							<i class="fas fa-folder-plus"></i>
+						</button>
+					</div>
+				<form>
+			</div>
+		  </div>
+		</div>
+
+        <!-- Delete Modal -->
+        <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h6 class="modal-title" id="exampleModalLabel">Are you sure you want to delete this?</h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                
+                <button class="btn btn-danger">
+                    <a href="delete.php?id=<?php echo $rows['id']; ?>">Yes
+                        <i class="fas fa-trash-alt"></i>
+                    </a>
+                </button>
+                </div>
+            </div>
+            </div>
+        </div>
+
+
 		<!-- Add Class Modal -->
 		<div class="modal fade" id="addCourse" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		  <div class="modal-dialog modal-dialog-centered">

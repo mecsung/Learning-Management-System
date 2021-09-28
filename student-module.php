@@ -8,7 +8,7 @@
         <title> Student </title>
 		<meta name="viewport" content="width=device-width,initial-scale=1">
 	
-		<link rel="icon" type="image/x-icon" href="favicon.ico"/>
+		<link rel="icon" type="image/x-icon" href="styles/favicon.ico"/>
 		
 		<!-- CUSTOM STYLESHEET -->
         <link rel="stylesheet" href="admin-dashboard.css">

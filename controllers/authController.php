@@ -156,9 +156,6 @@
 		if ($userCount > 0) {
 			$errors['email'] = "Email Error!";
 		}
-		
-		
-		
 		//********************* IF NO ERRORS ***************************
 		if (count($errors) == 0) {
 			date_default_timezone_set('Asia/Manila');
@@ -304,11 +301,67 @@
 			exit();
 		}
 		else  {
-				$errors['db_error'] = "Database error: failed to register";
+			$errors['db_error'] = "Database error: failed to register";
 		}
 	}
-	
-	
+
+	//************************* ADD NEW CLASS ****************************
+	if (isset($_POST['add-class'])) {
+		$program_name = htmlspecialchars($_POST['program_name']);
+		$program_code = htmlspecialchars($_POST['program_code']);
+		$pdescription = htmlspecialchars($_POST['pdescription']);
+		date_default_timezone_set('Asia/Manila');
+		$reg_date = date("F j\, Y \| g:i A", time());
+		
+		$sql = "INSERT INTO classes (program_name, program_code, pdescription, date_created)
+			VALUES (?, ?, ?, ?)";
+			$stmt = $connection->prepare($sql);
+			$stmt->bind_param('ssss', $program_name, $program_code, $pdescription, $reg_date);
+				
+		if ($stmt->execute()) {
+			header("location: classes-module.php");
+			exit();
+		}
+		else  {
+			$errors['db_error'] = "Database error: failed to register";
+		}
+	}
+	//************************* ADD NEW SECTION ****************************
+	if (isset($_POST['add-section'])) {
+		$id = $_POST['id'];
+		$program = htmlspecialchars($_POST['program']);
+		$class_name = htmlspecialchars($_POST['class_name']);
+		
+		if (empty($class_name)) {
+			$errors['class_name'] = "Input Class Name";
+		}
+		//CHECK SECTION IF EXISTING IN DATABASE
+		$emailQuery = "SELECT * From sections WHERE class_name=? AND program=? Limit 1";
+		$stmt = $connection->prepare($emailQuery);
+		$stmt->bind_param('ss', $class_name, $program);
+		$stmt->execute();
+		$result=$stmt->get_result();
+		$userCount = $result->num_rows;
+		$stmt->close();
+		
+		if ($userCount > 0) {
+			$errors['class_name'] = "Class Name Already Exist!";
+		}
+
+		//IF NO ERRORS
+		if (count($errors) == 0) {
+		$sql = "INSERT INTO sections (program, class_name)
+				VALUES (?, ?)";
+				$stmt = $connection->prepare($sql);
+				$stmt->bind_param('ss', $program, $class_name);
+
+			if ($stmt->execute()) {
+				header("location: view-program.php?id=$id");
+				exit();
+			}
+		}
+		header("location: view-program.php?id=$id");
+	}
 	
 	
 	

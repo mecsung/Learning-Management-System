@@ -8,7 +8,7 @@
         <title> Courses </title>
 		<meta name="viewport" content="width=device-width,initial-scale=1">
 		
-		<link rel="icon" type="image/x-icon" href="favicon.ico"/>
+		<link rel="icon" type="image/x-icon" href="styles/favicon.ico"/>
 		
 		<!-- CUSTOM STYLESHEET -->
         <link rel="stylesheet" href="admin-dashboard.css">
@@ -222,8 +222,17 @@
 						</select>
 						<br>
 						<label>Program: </label><br>
-						<input type="text" name="program" placeholder="program">
-						<br>
+						<?php
+							$output = mysqli_query ($connection, "SELECT * FROM classes");
+						?>
+						<select name="program" class="form-input">
+							<option value="" selected disabled>-- Program --</option>
+							<?php while ($row1 = mysqli_fetch_array($output)):; ?>
+							<option>
+								<?php echo $row1[1]; ?>
+							</option>
+							<?php endwhile; ?>
+						</select>
 					</div>
 				
 

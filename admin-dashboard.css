@@ -318,9 +318,6 @@ body{
 .wrapper .content .registration .student-records .record-2 {
 	width: 800px;
 }
-
-
-
 /********** COURSES MODULE BUTTONS **********/
 .wrapper .content .course-pdf {
 	margin-bottom: 10px;
@@ -407,6 +404,42 @@ body{
 	border: 1px solid #DFDFDF;
 	border-radius: 2em;
 }
+/********** VIEW CLASSES MODULE **********/
+.wrapper .content .courses .add-courses .courses-2 .pdescription {
+	font-size: 14px;
+	padding: 10px;
+}
+.wrapper .content .courses .add-courses .courses-2 .table .table .th {
+	text-align: right;
+}
+.wrapper .content .courses .add-courses .courses-2 .table .table th button {
+	border: none;
+	background: none;
+}
+.wrapper .content .courses .add-courses .courses-2 .table .table th .fas {
+	font-size: 25px;
+	color: green;
+	background: #FFF;
+}
+.wrapper .content .courses .add-courses .courses-2 .table .table th .fas:hover {
+	cursor: pointer;
+	color: rgb(0, 172, 0);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /******* landing-page.php *******/
 .wrapper .box{
