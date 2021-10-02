@@ -26,7 +26,7 @@
             <!--header menu start-->
             <div class="header">
                 <div class="header-menu">
-                    <div class="title">Harvard University</div>
+					<div class="title">Aoba Johsai Academy</div>
                 </div>
             </div>
             <!--header menu end-->
@@ -34,7 +34,7 @@
             <div class="sidebar">
                 <div class="sidebar-menu">
                     <center class="profile">
-                        <img src="logo.png" alt="">
+                        <img src="styles/logo.png" alt="">
                         <p><?php echo $_SESSION['username']; ?></p>
                     </center>
 					<hr></hr>
@@ -159,20 +159,20 @@
 										</tr>
 										</thead>
 										<tbody>
-
-                                        <?php
-                                            $output = mysqli_query ($connection, "SELECT * FROM sections WHERE program='$program_name'");
-                                            While ($rows = mysqli_fetch_array($output)) { ?>
-                                        <tr>
-                                            <td><?php echo $rows['class_name']; ?></td>
-											<td class="th">
-                                                <!-- Button trigger modal -->
-                                                <button type="button" data-bs-toggle="modal" data-bs-target="#deleteModal">
-                                                    <i class="fas fa-trash-alt"></i>
-                                                </button>
-                                            </td>
-										</tr>
-                                        <?php } ?>
+											 <?php
+												$output = mysqli_query ($connection, "SELECT * FROM sections WHERE program='$program_name'");
+												While ($rows = mysqli_fetch_array($output)) { ?>
+												<tr>
+													<td><?php echo $rows['class_name']; ?></td>
+													<td class="th">
+														<!-- Button trigger modal -->
+														<button type="button" data-bs-toggle="modal" data-bs-target="#deleteModal">
+															<i class="fas fa-trash-alt"></i>
+														</button>
+													</td>
+												</tr>
+											<?php } ?>
+										</tbody>
 									</table>
 								</div>
 

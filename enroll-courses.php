@@ -25,7 +25,7 @@
             <!--header menu start-->
             <div class="header">
                 <div class="header-menu">
-                    <div class="title">Harvard University</div>
+					<div class="title">Aoba Johsai Academy</div>
                 </div>
             </div>
             <!--header menu end-->
@@ -33,7 +33,7 @@
             <div class="sidebar">
                 <div class="sidebar-menu">
                     <center class="profile">
-                        <img src="logo.png" alt="">
+                        <img src="styles/logo.png" alt="">
                         <p><?php echo $_SESSION['username']; ?></p>
                     </center>
 					<hr></hr>

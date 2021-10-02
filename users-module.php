@@ -19,6 +19,51 @@
 		<!-- BOOTSRAP -->
 		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet">
 	</head>
+
+    <style>
+        .wrapper .content .list-1 .list {
+            float: right;
+        }
+        .wrapper .content .hr {
+           margin-top: 42px;
+        }
+        .wrapper .content .list-1 .list button {
+            border: none;
+            background: none;
+            color: #000;
+            border-radius: 0em;
+            padding: 6px;
+            margin-left: 25px;
+        }
+        .wrapper .content .list-1 .list span button {
+            border: none;
+            background: none;
+            color: red;
+            border-radius: 0em;
+            padding: 6px;
+            margin-left: 25px;
+        }
+        .wrapper .content .list-1 .list button:hover {
+            color: red;
+            border-bottom: 1px solid red;
+            transition: width 0.3s ease 0s, left 0.3s ease 0s;
+        }
+        .modal .modal-dialog .modal-content .modal-body .body{
+            padding: 20px;
+            margin-left: 50px;
+        }
+        .modal .modal-dialog .modal-content .modal-body .body button{
+            margin-top: 10px;
+            font-size: 14px;
+            width: 300px;
+        }
+        .modal .modal-dialog .modal-content .modal-body .body input{
+            border: 1px solid black;
+        }
+        .modal .modal-dialog .modal-content .modal-body .body input:hover {
+            border: 1px solid red;
+        }
+    </style>
     <body>
 
         <!--wrapper start-->
@@ -26,7 +71,7 @@
             <!--header menu start-->
             <div class="header">
                 <div class="header-menu">
-                    <div class="title">Harvard University</div>
+                    <div class="title">Aoba Johsai Academy</div>
                 </div>
             </div>
             <!--header menu end-->
@@ -34,7 +79,7 @@
             <div class="sidebar">
                 <div class="sidebar-menu">
                     <center class="profile">
-                        <img src="logo.png" alt="">
+                        <img src="styles/logo.png" alt="">
                         <p><?php echo $_SESSION['username']; ?></p>
                     </center>
 					<hr></hr>
@@ -93,12 +138,81 @@
 				</div>
 				
 				<hr></hr>
-				
+
+				<div class="search-box">
+					<input type="text" name="search" class="search-box" placeholder="Type to search...">
+					<button type="submit" name="button-search" value="search">
+                        <i class="fas fa-search"></i>
+					</button>
+				</div>
+
 				<h3>Users</h3>
-				
-				
-				
-				
+                <div class="list-1">
+                    <div class="list">
+                        <span>
+                            <a href="users-module.php" style="text-decoration: none;">
+                                <button type="button" name="" class="btn btn-danger">List Preview
+                                    <i class="fas fa-list"></i>
+                                </button>
+                            </a>
+                        </span>
+                        <button type="submit" name="" class="btn btn-danger">Settings
+                            <i class="fas fa-cog"></i>
+                        </button>
+                        <button type="button"data-bs-toggle="modal" data-bs-target="#sudoMode">Add Admin
+                            <i class="fas fa-user-plus"></i>
+                        </button>
+                        
+                    </div>
+                </div>
+                <div class="hr">
+                    <hr></hr>
+                </div>
+
+                <div class="admin-1">
+                    <div class="admin-2">
+                        <div class="table">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th> Name 		        </th>
+                                        <th> Account Type		</th>
+                                        <th> Email				</th>
+                                        <th> Username			</th>
+                                        <th> Action             </th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <?php
+                                        error_reporting(E_ERROR | E_PARSE);
+                                            
+                                        $res = mysqli_query ($connection, "SELECT * FROM users");
+                                        while ($row = mysqli_fetch_array($res))
+                                        { ?>
+                                            <tr>
+                                                <td>
+                                                    <?php
+                                                        if ($row['id'] == 1) { ?>
+                                                                Default
+                                                        <?php }
+                                                        else {
+                                                            echo $row['admin_name'];
+                                                        }
+                                                    ?>
+                                                </td>
+                                                <td><?php echo $row['acctype']; ?></td>
+                                                <td><?php echo $row['username']; ?></td>
+                                                <td><?php echo $row['reg_date']; ?></td>
+                                                <td></td>
+                                            </tr>
+                                    <?php } ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                </div>
 			</div>
             <!--main container end-->
         </div>
@@ -124,6 +238,39 @@
 			</div>
 		  </div>
 		</div>
+
+        <!-- Sudo Mode Modal -->
+        <div class="modal fade" id="sudoMode" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Confirm Access</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                    <form action="users-module.php" method="POST" class="sudoMode">
+                        <div class="modal-body">
+                            <div class="body">
+                                <label>Password: </label><br>
+                                <input type="password" name="password">
+                                <br>
+                                
+                                <button type="submit" name="sudoPassword" class="btn btn-danger">Confrim password
+                                    <i class="fas fa-sign-in-alt"></i>
+                                </button>
+                                <br>
+                            </div>
+                            <hr></hr>
+                            <center>
+                                <label>
+                                    Kindly confirm your password to proceed.
+                                </label>
+                            </center>
+                        </div>
+                    <form>
+                </div>
+            </div>
+        </div>
+        
 		
 		<div>
 			<?php

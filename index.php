@@ -5,7 +5,7 @@
 <!DCTYPE HTML>
 <html>
 <head>
-	<title> Login </title>
+	<title> Welcome to Aoba Johsai Academy! </title>
 	<meta name="viewport" content="width=device-width,initial-scale=1">
 	
 	<link rel="icon" type="image/x-icon" href="styles/favicon.ico"/>
@@ -32,22 +32,22 @@
 						</div>
 						<div class="carousel-inner">
 							<div class="carousel-item active">
-								<img src="https://www.harvardmagazine.com/sites/default/files/img/article/0720/harvardyard.jpg" height="100%" style="filter: brightness(80%);">
+								<img src="https://storage.googleapis.com/schoolynkmedia/2018/06/70ee3a3f-university_of_tsukuba_otsuka_campus_2012-1024x679.jpg" height="100%" style="filter: brightness(70%);">
 								<div class="carousel-caption d-none d-md-block">
 									<h5>Register Now!</h5>
 									<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
 								</div>
 							</div>
 							<div class="carousel-item">
-								<img src="https://www.bostonmagazine.com/wp-content/uploads/sites/2/2014/09/HBS.jpg" height="100%" style="filter: brightness(50%);">
+								<img src="https://motto-jp.com/media/wp-content/uploads/2020/04/03-international-christian-university-mitaka-tokyo-japan-photo-john-paul-antes-wikimedia-commons.jpeg" height="100%" style="filter: brightness(50%);">
 								<div class="carousel-caption d-none d-md-block">
-									<h5>Why Harvard University?</h5>
+									<h5>Why Aoba Johsai Academy?</h5>
 									<p>Lorem Ipsum is simply dummy text of the printing and 
 									typesetting industry.</p>
 								</div>
 							</div>
 							<div class="carousel-item">
-								  <img src="https://image.cnbcfm.com/api/v1/image/103932551-GettyImages-94953697.jpg?v=1630264559" height="100%" style="filter: brightness(50%);">
+								  <img src="https://www.mssu.edu/images/Meiji%20University.jpg" height="100%" style="filter: brightness(50%);">
 								  <div class="carousel-caption d-none d-md-block">
 									<h5>Courses we have.</h5>
 									<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
@@ -70,15 +70,14 @@
 			<!-- Right side -->
 			<div class="right">
 				<div class="form">
-					<img src="logo.png" width="60px" height="60px">
-					<h1><b>Harvard University</h1></b>
+					<img src="styles/logo.png" width="100px" height="100px" >
+					<h1><b>Aoba Johsai Academy</h1></b>
 					<p><b>Information System</b></p>
 					<p>
-					<p><i>Harvard University is a private Ivy League research university in 
-					Cambridge, Massachusetts. Founded in 1636 as Harvard College and named for 
-					its first benefactor, the Puritan clergyman John Harvard, it is the oldest 
-					institution of higher learning in the United States and among the most 
-					prestigious in the world. </i></p>
+					<p><i>Aoba Johsai Academy is a private Ivy League research university in 
+					Cambridge, Massachusetts. Founded by Aoba Furukodani and Johsai Tsukishima in 1864 
+					as Aoba-Johsai College. It is one of the oldest institution of higher learning in 
+					the Japan and among the most prestigious in the world. </i></p>
 					
 					<!-- LOGIN MODULE -->
 					Login

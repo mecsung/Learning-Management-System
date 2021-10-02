@@ -3,6 +3,7 @@
 	session_start();
 	
 	require 'config/db.php';
+	require_once 'emailController.php';
 	$errors = array();
 	$username = "";
 	$email = "";
@@ -362,9 +363,76 @@
 		}
 		header("location: view-program.php?id=$id");
 	}
-	
-	
-	
+
+	//************************* CONFRIM ADMIN ACCESS TO ADD NEW ADMIN ****************************
+	if (isset($_POST['sudoPassword'])) {
+		
+		header('location: users-add-admin-submodule.php');
+	}
+
+	//************************* ADD NEW ADMIN ****************************
+	if (isset($_POST['addNewAdmin'])) {
+		$fname = htmlspecialchars($_POST['fname']); //XXS-Protection
+		$mname = htmlspecialchars($_POST['mname']);
+		$lname = htmlspecialchars($_POST['lname']);
+
+		$admin_name = $lname . ", " . $fname . ", " . $mname;
+		
+		$email = htmlspecialchars($_POST['email']);
+
+		if (empty($fname)) {
+			$errors['fname'] = "1";
+		}
+		if (empty($mname)) {
+			$errors['manme'] = "2";
+		}
+		if (empty($lname)) {
+			$errors['lname'] = "3";
+		}
+		if (empty($email)) {
+			$errors['email'] = "4";
+		}
+		
+		$words = explode(" ", $fname);
+		$acronym = "";
+		foreach ($words as $w) {
+			$acronym .= $w[0];
+		}
+		$initials = strtolower($acronym);
+		$middle = strtolower($mname[0]);
+		$username = $lname ."". $initials ."". $middle . "@admin-aja.edu.com";
+		$id_user = date("Y")."-";
+
+		date_default_timezone_set('Asia/Manila');
+		$reg_date = date("F j\, Y");
+
+		if (count($errors) == 0) {
+			$verified = False;
+			$acctype = 'admin';
+			$OTP = rand(999999, 111111);
+			
+			$sql = "INSERT INTO users (id_user, admin_name, username, email,
+			acctype, verified, OTP, reg_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+			$stmt = $connection->prepare($sql);
+			$stmt->bind_param('sssssbis', $id_user, $admin_name, $username,
+			$email, $acctype, $verified, $OTP, $reg_date);
+			
+			if ($stmt->execute()) {
+				// SEND VERIFICATION IN EMAIL
+				sendVerificationCode($email, $OTP);
+				header('location: users-add-admin-submodule.php');
+				exit();
+			}
+			else  {
+				$errors['db_error'] = "Database error: failed to register";
+			}
+		}
+		else {
+			if ($counter == 9) {
+				$errors['all'] = "All Fields must be filled out!";
+			}
+		}
+	}
 	
 	
 	
