@@ -175,10 +175,11 @@
                             <table class="table table-bordered">
                                 <thead>
                                     <tr>
+                                        <th> User ID 		    </th>
                                         <th> Name 		        </th>
                                         <th> Account Type		</th>
                                         <th> Email				</th>
-                                        <th> Username			</th>
+                                        <th> Registration Date	</th>
                                         <th> Action             </th>
                                     </tr>
                                 </thead>
@@ -191,6 +192,7 @@
                                         while ($row = mysqli_fetch_array($res))
                                         { ?>
                                             <tr>
+                                                <td><?php echo $row['id_user']; ?></td>
                                                 <td>
                                                     <?php
                                                         if ($row['id'] == 1) { ?>

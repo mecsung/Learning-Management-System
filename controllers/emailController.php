@@ -5,13 +5,13 @@
 
 	// Create the Transport
 	$transport = (new Swift_SmtpTransport('smtp.gmail.com', 465, 'ssl'))
-		->setUsername(EMAIL)
-		->setPassword(PASSWORD);
+		->setUsername('aobajohsaiacademy101@gmail.com')
+		->setPassword('aobajohsai101');
 
 	// Create the Mailer using your created Transport
 	$mailer = new Swift_Mailer($transport);
 
-	function sendVerificationEmail($userEmail, $OTP)
+	function sendVerificationEmail($userEmail, $token, $OTP)
 	{
 		global $mailer;
 		
@@ -24,8 +24,14 @@
 		<body>
 			<div class="wrapper">
 			<p>
+				Thank you for signing up on our website.
 				Your verification code is ' . $OTP . ' .
+				Please click on the link below
+				to verify your email.
 			</p>
+			<a href="localhost/LegaspiInformationSecurity/Prototype3/#.php?token=' . $token . '">
+				Verify your email address
+			</a>
 			</div>
 			
 		</body>
@@ -42,7 +48,7 @@
 	}
 
 	//************* SEND VERIFICATION CODE FOR ADMIN *********************/
-	function sendVerificationCode($email, $OTP) {
+	function SendCode($email, $OTP) {
 		global $mailer;
 		
 		$body = '<!DCTYPE HTML>
@@ -64,7 +70,7 @@
 		// Create a message
 		$message = (new Swift_Message('Verification Code for new Admin'))
 			->setFrom(EMAIL)
-			->setTo($userEmail)
+			->setTo($email)
 			->setBody($body, 'text/html');
 
 		// Send the message

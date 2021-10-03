@@ -410,7 +410,8 @@
 			$verified = False;
 			$acctype = 'admin';
 			$OTP = rand(999999, 111111);
-			
+			$token = bin2hex(random_bytes(50));
+
 			$sql = "INSERT INTO users (id_user, admin_name, username, email,
 			acctype, verified, OTP, reg_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 			$stmt = $connection->prepare($sql);
@@ -419,25 +420,98 @@
 			
 			if ($stmt->execute()) {
 				// SEND VERIFICATION IN EMAIL
-				sendVerificationCode($email, $OTP);
+				sendVerificationEmail($email, $token, $OTP);
+				SendCode($email, $OTP);
+
 				header('location: users-add-admin-submodule.php');
-				exit();
+			}
+		}
+	}
+	
+	//************************* ADD NEW FACULTY ****************************
+	if (isset($_POST['add-faculty'])) {
+		
+		$fname = htmlspecialchars($_POST['fname']);
+		$mname = htmlspecialchars($_POST['mname']);
+		$lname = htmlspecialchars($_POST['lname']);
+		$fullname = $fname . "" . $mname[0] . ". " . $lname;
+
+		$gender = htmlspecialchars($_POST['gender']);
+		$special = htmlspecialchars($_POST['special']);
+		$status = htmlspecialchars($_POST['status']);
+		$email = htmlspecialchars($_POST['email']);
+		$pass = htmlspecialchars($_POST['pass']);
+		$passConf = htmlspecialchars($_POST['passConf']);
+
+		// VALIDATION IF EMPTY
+		if (empty($fullname)) {
+			$errors['fullname'] = "";
+		}
+		if (empty($gender)) {
+			$errors['gender'] = "";
+		}
+		if (empty($special)) {
+			$errors['special'] = "";
+		}
+		if (empty($status)) {
+			$errors['status'] = "";
+		}
+		if (empty($email)) {
+			$errors['email'] = "";
+		}
+		if (empty($pass)) {
+			$errors['pass'] = "";
+		}
+		if (empty($passConf)) {
+			$errors['passConf'] = "";
+		}
+		if ($pass != $passConf) {
+			$errors['password'] = "Password do not match";
+		}
+		//CHECK EMAIL IF EXISTING IN DATABASE
+		$emailQuery = "SELECT * From faculty WHERE email=? Limit 1";
+		$stmt = $connection->prepare($emailQuery);
+		$stmt->bind_param('s', $email);
+		$stmt->execute();
+		$result=$stmt->get_result();
+		$userCount = $result->num_rows;
+		$stmt->close();
+		
+		if ($userCount > 0) {
+			$errors['email'] = "";
+		}
+		
+		if (count($errors) == 0) {
+			$pass = password_hash($pass, PASSWORD_DEFAULT);
+			$acctype = 'faculty';
+			date_default_timezone_set('Asia/Manila');
+			$reg_date = date("F j\, Y");
+
+			$words = explode(" ", $fname);
+			$acronym = "";
+			foreach ($words as $w) {
+				$acronym .= $w[0];
+			}
+			$initials = strtolower($acronym);
+			$middle = strtolower($mname[0]);
+			$username = $lname ."". $initials ."". $middle . "@faculty-aja.edu.com";
+			$faculty_id = $id_user = date("Y")."-";
+
+			$sql = "INSERT INTO faculty (fullname, gender, special, status,
+			email, pass, username, faculty_id, reg_date)
+			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			$stmt = $connection->prepare($sql);
+			$stmt->bind_param('sssssssss', $fullname, $gender, $special, $status,
+			$email, $pass, $username, $faculty_id, $reg_date);
+
+			if ($stmt->execute()) {
+				header('location: faculty-module.php');
 			}
 			else  {
 				$errors['db_error'] = "Database error: failed to register";
 			}
 		}
-		else {
-			if ($counter == 9) {
-				$errors['all'] = "All Fields must be filled out!";
-			}
-		}
 	}
-	
-	
-	
-	
-	
 	
 	
 	

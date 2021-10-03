@@ -94,11 +94,180 @@
 				
 				<hr></hr>
 				
-				<h3>Faculty List</h3>
+                <form action="faculty-module.php" method="POST">
+                    <div class="search-box">
+                        <input type="text" name="searchfaculty" class="search-box" placeholder="Type to search...">
+                        <button type="submit" name="button-search-faculty" value="search">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h3>Faculty List</h3>
+
+                    <div class="button-enroll">
+                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" 
+					    data-bs-target="#addFaculty">Add New Faculty
+                            <i class="fas fa-user-plus"></i>
+                        </button>
+					
+                        <button type="submit" class="btn btn-success" name="pdf-btn">
+                            <a href="downloadPDF.php" target="_blank">Download PDF
+                                <i class="fas fa-file-download"></i>
+                            </a>	
+                        </button>
+				    </div>
 				
+                    <div class="page">
+                        <label><?php echo "Page " . $_GET['page']; ?></label>
+                    </div>
 				
-				
-				
+                    <div class="table">
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th> Faculty no.  		</th>
+                                <th> Name				</th>
+                                <th> Email				</th>
+                                <th> Status				</th>
+                                <th> Registration Date	</th>
+                                <th> Action				</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                        
+                        <?php
+                            error_reporting(E_ERROR | E_PARSE);
+                            
+                            // if search button is clicked
+                            if (isset($_POST['button-search-faculty'])) {
+                                $search = $_POST['searchfaculty'];
+                                
+                                $result = mysqli_query($connection, "SELECT * FROM faculty
+                                WHERE fullname='$search' or username='$search' ");
+                                
+                                if (mysqli_num_rows($result) == 0){ ?>
+                                    <div class="alert alert-danger" role="alert">
+                                        Cannot find student.
+                                    </div>
+                                <?php }
+                                
+                                while ($row = mysqli_fetch_array($result))
+                                { ?>
+                                    <tr>
+                                        <td> <?php echo $row['faculty_id']; ?> </td>
+                                        <td>
+                                            <?php echo $row['fullname']; ?> 
+                                        </td>
+                                        <td> <?php echo $row['username']; ?>   </td>
+                                        <td> <?php echo $row['status']; ?> 	</td>
+                                        <td> <?php echo $row['reg_date']; ?>   </td>
+                                        <td>
+                                            <!-- Button trigger modal -->
+                                            <button type="button" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                        </a>
+                                        </td>
+                                    </tr>
+                                    
+                                    <!-- Delete Modal -->
+                                    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h6 class="modal-title" id="exampleModalLabel">Are you sure you want to delete this?</h6>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            
+                                            <button class="btn btn-danger">
+                                                <a href="delete.php?id=<?php echo $row['id']; ?>">Yes
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </a>
+                                            </button>
+                                        </div>
+                                        </div>
+                                    </div>
+                                    </div>
+                        <?php }
+                            } else {
+                                $page = $_GET['page'];
+                                if ($page == "" || $page == "1"){
+                                    $page1 = 0;
+                                }
+                                else {
+                                    $page1 = ($page*5)-5;
+                                }
+                                
+                                error_reporting(E_ERROR | E_PARSE);
+                                
+                                $res = mysqli_query ($connection, "SELECT * FROM faculty Limit $page1,5 ");
+                                while ($rows = mysqli_fetch_array($res)) {
+                            ?>
+                                <tr>
+                                    <td> <?php echo $rows['faculty_id']; ?> </td>
+                                    <td>
+                                        <?php echo $rows['fullname']; ?> 
+                                    </td>
+                                    <td> <?php echo $rows['username']; ?>   </td>
+                                    <td> <?php echo $rows['status']; ?> 	</td>
+                                    <td> <?php echo $rows['reg_date']; ?>   </td>
+                                    <td>
+                                        <!-- Button trigger modal -->
+                                        <button type="button" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </a>
+                                    </td>
+                                </tr>
+                                
+                            <!-- Delete Modal -->
+                            <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                <div class="modal-header">
+                                    <h6 class="modal-title" id="exampleModalLabel">Are you sure you want to delete this?</h6>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    
+                                    <button class="btn btn-danger">
+                                        <a href="delete.php?id=<?php echo $rows['id']; ?>">Yes
+                                            <i class="fas fa-trash-alt"></i>
+                                        </a>
+                                    </button>
+                                </div>
+                                </div>
+                            </div>
+                            </div>
+
+                        <?php	}	
+                            }
+                        ?>
+                        </tbody>
+                        </table>
+                    </div>
+
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination justify-content-end">
+                            <?php
+                                $res1 = mysqli_query($connection, "SELECT * FROM faculty");
+                                $count = mysqli_num_rows($res1);
+                                $a = $count/5;
+                                $a = ceil($a);
+                                for ($b=1; $b<=$a; $b++) { ?>
+                                    <li class="page-item"><a class="page-link" 
+                                    href="student-module.php?page=<?php echo $b ." " ;?>"><?php echo $b; ?></a>
+                                    </li>
+                                
+                                <?php
+                                }
+                                ?>
+                        </ul>
+                    </nav>
+                </form>
 			</div>
             <!--main container end-->
         </div>
@@ -121,6 +290,69 @@
 					</a>
 				</button>
 			  </div>
+			</div>
+		  </div>
+		</div>
+
+        <!-- Add Faculty Modal -->
+		<div class="modal fade" id="addFaculty" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered-scrollable">
+			    <div class="modal-content">
+			        <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Register New Faculty</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+			  
+                    <form action="faculty-module.php" method="POST">
+                        <div class="modal-body">
+                            <label>First Name: </label><br>
+                            <input type="text" name="fname" placeholder="first name">
+                            <br>
+                            <label>Middle Name: </label><br>
+                            <input type="text" name="mname" placeholder="middle name">
+                            <br>
+                            <label>Last Name: </label><br>
+                            <input type="text" name="lname" placeholder="last name">
+                            <br>
+
+                            <label>Gender:</label><br>
+                            <select name="gender">
+                                <option value="" selected disabled>-- Gender --</option>
+                                <option
+                                <?php if (isset($gender) && $gender=="male") echo "selected";?>
+                                value="male">Male</option>
+                                <option
+                                <?php if (isset($gender) && $gender=="female") echo "selected";?>
+                                value="female">Female</option>
+                            </select>
+                            
+                            <br>
+                            <label>Specialization: </label><br>
+                            <input type="text" name="special" placeholder="specialization">
+                            <br>
+                            <label>Employment Status: </label><br>
+                            <input type="text" name="status" placeholder="employment status">
+                            <br>
+                            <label>Email: </label><br>
+                            <input type="text" name="email" placeholder="email">
+                            <br>
+                            <label>Password: </label><br>
+                            <input type="password" name="pass" placeholder="password">
+                            <br>
+                            <label>Confirm Password: </label><br>
+                            <input type="password" name="passConf" placeholder="confirm password">
+                            <br>
+                        </div>
+                    
+
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        
+                        <button type="submit" name="add-faculty" class="btn btn-danger">Save
+                            <i class="fas fa-folder-plus"></i>
+                        </button>
+                    </form>
+			    </div>
 			</div>
 		  </div>
 		</div>
