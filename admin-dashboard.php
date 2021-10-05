@@ -20,6 +20,149 @@
 		<!-- BOOTSRAP -->
 		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet">
 	</head>
+	<style>
+		.wrapper .content .sy {
+			height: 40px;
+			background: #FFF;
+			border-radius: 0.5em;
+			margin-bottom: 15px;
+		}
+		.wrapper .content .sy label {
+			padding: 10px;
+			font-size: 12px;
+		}
+		.wrapper .content .sy select {
+			font-size: 12px;
+			border: none;
+			padding: 0px;
+		}
+		.wrapper .content .sy select:hover {
+			color: red;
+			cursor: pointer;
+		}
+		.wrapper .content .sy button {
+			background: #FFF;
+			border: none;
+			transition: all ease-in-out 0.2s;
+			cursor: pointer;
+		}
+		.wrapper .content .sy button:hover {
+			color: red;
+			font-size: 20px;
+		}
+		.wrapper .content .sy span {
+			float: right;
+			margin-right: 20px;
+		}
+		.wrapper {
+			background: #F1F1F1;
+		}
+		.wrapper .content .objects .rows {
+			display: flex;
+			flex-direction: row;
+			margin-bottom: 15px;
+		}
+		.wrapper .content .objects .rows label {
+			font-size: 14px;
+			float: center;
+			margin-right: 30px;
+			margin-top: 12px;
+			padding: 10px;
+			float: left;
+		}
+		.wrapper .content .objects .rows i {
+			font-size: 35px;
+			padding: 16px;
+		}
+		.wrapper .content .objects .rows button {
+			border: none;
+		}
+		.wrapper .content .objects .rows button:hover {
+			cursor: pointer;
+			transition: all ease-in-out 0.2s;
+			box-shadow: 0 10px 10px rgba(0, 0, 0, 0.3);
+		}
+		.wrapper .content .objects .rows .col-1{
+			width: 24%;
+			height: 70px;
+			background: #FFF;
+			border-left: 12px solid green;
+			border-radius: 0.5em;
+			margin-right: 15px;
+		}
+		.wrapper .content .objects .rows .col-1 i {
+			float: left;
+			color: green;
+		}
+		.wrapper .content .objects .rows .col-2{
+			width: 24%;
+			height: 70px;
+			background: #FFF;
+			border-left: 12px solid blue;
+			border-radius: 0.5em;
+			margin-right: 15px;
+		}
+		.wrapper .content .objects .rows .col-2 i {
+			float: left;
+			color: blue;
+		}
+		.wrapper .content .objects .rows .col-3{
+			width: 24%;
+			height: 70px;
+			background: #FFF;
+			border-left: 12px solid orange;
+			border-radius: 0.5em;
+			margin-right: 15px;
+		}
+		.wrapper .content .objects .rows .col-3 i {
+			float: left;
+			color: orange;
+		}
+		.wrapper .content .objects .rows .col-4{
+			width: 24%;
+			height: 70px;
+			background: #FFF;
+			border-left: 12px solid red;
+			border-radius: 0.5em;
+		}
+		.wrapper .content .objects .rows .col-4 i {
+			float: left;
+			color: red;
+		}
+		.wrapper .content .outer .inner {
+			display: flex;
+			flex-direction: row;
+			margin-bottom: 15px;
+		}
+		.announcements {
+			margin-right: 20px;
+			background: #FFF;
+			width: 100%;
+			padding: 20px;
+		}
+		.announcements label {
+			border-bottom: 1px solid #DCDCDC;
+			padding: 10px;
+			margin-bottom: 10px;
+			font-size: 12px;
+		}
+		.announcements button {
+			border: 1px solid green;
+			background: none;
+			border-radius: 2em;
+			width: 80px;
+			height: 35px;
+			float: right;
+		}
+		.announcements button:hover {
+			color: #FFF;
+			background: green;
+			transition: all ease-in-out 0.2s;
+		}
+		.announcements input:hover {
+			border: 1px solid green;
+		}
+	</style>
     <body>
 	
         <!--wrapper start-->
@@ -92,14 +235,90 @@
 					<p>Dashboard / </p>
 				</div>
 				<hr></hr>
-				
-				<h3>Overview</h3>
-				<?php 
-					date_default_timezone_set('Asia/Manila');
-					echo "Today is " . date("F j\, Y "	);	
-				?>
-				<div id="piechart_3d" style="width: 900px; height: 500px;"></div>
-				
+
+				<?php date_default_timezone_set('Asia/Manila'); ?>
+				<div class="sy">
+					<label>Today is <?php echo date("F j\, Y "	); ?></label>
+					<span>
+						<label>School Year</label>
+						<select>
+							<option>2021 - 2022</option>
+						</select>
+						<button title="create new school year">
+							<i class="fas fa-layer-group"></i>
+						</button>		
+					</span>
+				</div>
+				<div class="objects">
+					<div class="rows">
+						<button class="col-1">
+							<i class="fas fa-user-circle"></i>
+								<label>Admin</label>
+								<label>
+									<?php 
+										$result = mysqli_query ($connection, "SELECT * FROM users WHERE acctype='admin' ");
+										$rowcount=mysqli_num_rows($result);
+										printf($rowcount);
+									?>
+								</label>
+						</button>
+						<button class="col-2">
+							<i class="fas fa-chalkboard-teacher"></i>
+							<label>Faculty</label>
+							<label>
+								<?php 
+									$result = mysqli_query ($connection, "SELECT * FROM faculty");
+									$rowcount=mysqli_num_rows($result);
+									printf($rowcount);
+								?>
+							</label>
+						</button>
+						<button class="col-3">
+							<i class="fas fa-graduation-cap"></i>
+							<label>Student</label>
+							<label>
+								<?php 
+									$result = mysqli_query ($connection, "SELECT * FROM students");
+									$rowcount=mysqli_num_rows($result);
+									printf($rowcount);
+								?>
+							</label>
+						</button>
+						<button class="col-4">
+							<i class="fas fa-landmark"></i>
+							<label>Courses</label>
+							<label>
+								<?php 
+									$result = mysqli_query ($connection, "SELECT * FROM courses");
+									$rowcount=mysqli_num_rows($result);
+									printf($rowcount);
+								?>
+							</label>
+						</button>
+					</div>
+				</div>
+				<div class="outer">
+					<div class="inner">
+						<div class="announcements">
+							<h5>Announcements</h5><input type="text" name="announcement" class="form-control" placeholder="type here...">
+							
+							<label>//Date// Lorem Ipsum is simply dummy text of the printing and 
+							type setting industry.</label>
+							<br>
+							<label>//Date// Lorem Ipsum is simply dummy text of the printing and 
+							type setting industry.</label>
+							<br>
+							<label>//Date// Lorem Ipsum is simply dummy text of the printing and 
+							type setting industry.</label>
+							<br>
+							<button type="submit">View All</button>
+						</div>
+
+						<div class="piediv">
+							<div class="piechart" id="piechart_3d"></div>
+						</div>
+					</div>
+				</dov>
 			</div>
             <!--main container end-->
         </div>
@@ -173,8 +392,11 @@
 			]);
 		
 			var options = {
-			  title: 'Student Population',
-			  is3D: true,
+				title: 'Student Population',
+				width: 500,
+				height: 300,
+				bar: {groupWidth: "95%"},
+				is3D: true,
 			};
 
 			var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
