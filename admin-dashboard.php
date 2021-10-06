@@ -36,7 +36,7 @@
 			border: none;
 			padding: 0px;
 		}
-		.wrapper .content .sy select:hover {
+		.wrapper .content .sy label:hover {
 			color: red;
 			cursor: pointer;
 		}
@@ -162,6 +162,14 @@
 		.announcements input:hover {
 			border: 1px solid green;
 		}
+		.announcements .save {
+			border-radius: 0em;
+			border: none;
+			width: 50px;
+			height: 38px;
+			position: absolute;
+			margin-left: 440px;
+		}
 	</style>
     <body>
 	
@@ -241,12 +249,20 @@
 					<label>Today is <?php echo date("F j\, Y "	); ?></label>
 					<span>
 						<label>School Year</label>
-						<select>
-							<option>2021 - 2022</option>
-						</select>
-						<button title="create new school year">
-							<i class="fas fa-layer-group"></i>
-						</button>		
+						<label title="current school year">
+						<?php
+							$sql = mysqli_query ($connection, "SELECT * FROM academic_year ORDER BY id DESC LIMIT 1");
+							while ($r = mysqli_fetch_array($sql)) {
+								$sdate = $r['start_date'];
+								$edate = $r['end_date'];
+							}
+							echo $sdate ." to ". $edate;
+						?>
+						</label>
+						<button title="create new school year" type="button" data-bs-toggle="modal" 
+						data-bs-target="#addSY">
+						<i class="fas fa-layer-group"></i>
+						</button>	
 					</span>
 				</div>
 				<div class="objects">
@@ -300,18 +316,27 @@
 				<div class="outer">
 					<div class="inner">
 						<div class="announcements">
-							<h5>Announcements</h5><input type="text" name="announcement" class="form-control" placeholder="type here...">
-							
-							<label>//Date// Lorem Ipsum is simply dummy text of the printing and 
-							type setting industry.</label>
-							<br>
-							<label>//Date// Lorem Ipsum is simply dummy text of the printing and 
-							type setting industry.</label>
-							<br>
-							<label>//Date// Lorem Ipsum is simply dummy text of the printing and 
-							type setting industry.</label>
-							<br>
-							<button type="submit">View All</button>
+							<h5>Announcements</h5>
+							<form action="admin-dashboard.php" method="POST">
+								<button type="submit" name="announcce-btn" class="save">
+									<i class="fas fa-plus"></i>
+								</button>
+								<input type="text" name="announcement" class="form-control" placeholder="type here...">
+
+								<?php
+									error_reporting(E_ERROR | E_PARSE);
+												
+									$result = mysqli_query ($connection, "SELECT * FROM announcements");
+									while ($rows = mysqli_fetch_array($result)) { ?>
+									<label><?php echo 
+											  $rows['post_date'] . " | " 
+											. $rows['announcement'] . " | <span style='color: blue;'>" 
+											. $rows['admin_name'] ."</span>"; ?></label>
+									<br>
+								<?php }
+								?>
+								<button type="submit">View All</button>
+							</form>
 						</div>
 
 						<div class="piediv">
@@ -345,11 +370,46 @@
 		  </div>
 		</div>
 		
+		<!-- Add Course Modal -->
+		<div class="modal fade" id="addSY" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		  <div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+			  <div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Create New Academic Year</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			  </div>
+			  
+				<form action="admin-dashboard.php" method="POST">
+					<div class="modal-body">
+						<label>Academic Year: </label><br>
+						<?php 
+						date_default_timezone_set('Asia/Manila');
+						$ay = date("Y-n-j");
+						?>
+						<input style="border: 1px solid green; width: 100px; text-align: center;" 
+						type="text" name="school_year" value='<?php echo $ay; ?>' readonly> - 
+						<input type="date" name="schoolyear">
+					</div>
+
+					<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					
+					<button type="submit" name="add-ay" class="btn btn-danger">Confirm
+						<i class="fas fa-layer-group"></i>
+					</button>
+				</form>
+			  </div>
+			</div>
+		  </div>
+		</div>
+
+
 		<div>
 			<?php
 				include("preloader.php")
 			?>
 		</div>
+
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.bundle.js"></script>
 		
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"></script>

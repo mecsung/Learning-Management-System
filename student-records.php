@@ -115,30 +115,6 @@
 					$name = strtoupper($lname) .", ". $fname ." ". substr($mname, 0, 1) . ".";
 				}	
 			?>
-				<div class="error-handling">
-					<!-- DISPLAY ERRORS -->
-					<?php if (count($errors) > 0 ): ?>
-						<?php if (count($errors) == 11): ?>
-							<div class="">
-								<?php
-									echo "<br>The following error(s) occurred:<p>";
-									echo "All fields must be fileld out<br><br>";
-								?>
-							</div>
-									
-						<?php else: ?>
-							<div class="">
-								<?php
-									echo "<br>The following error(s) occurred:<p>";
-									foreach ($errors as $error):
-								?>
-								<li><?php echo $error; ?></li>
-									<?php endforeach; echo "<br>"; ?>
-							</div>
-						<?php endif; ?>
-					<?php endif; ?>
-				</div>
-							
 				<div class="back-btn">
 					<a href="view-student.php?id=<?php echo $id; ?>">
 						<button type="button" class="btn btn-danger">Back 
@@ -146,7 +122,16 @@
 						</button>
 					</a>
 				</div>
-			
+				
+				<!-- ERROR HANDLING -->
+				<div class="error-handling">
+					<?php if (count($errors) > 0): ?>
+						<div class="alert alert-danger">
+							<label>Errors</label>
+						</div>
+					<?php endif; ?>
+				</div>
+
 				<!-- REGISTRATION FORM -->
 				<div class="registration">
 					<h4>Student Academic Records</h4>
@@ -245,11 +230,8 @@
 									while ($hori = mysqli_fetch_array($result)) { ?>
 										<tr>
 											<?php
-												$string = $hori['program'];
-
-												$expr = '/(?<=\s|^)[a-z]/i';
-												preg_match_all($expr, $string, $matches);
-
+												$expr = '/(?<=\s|^)[A-Z]/';
+												preg_match_all($expr, $hori['program'], $matches);
 												$imp = implode('', $matches[0]);
 												$short = strtoupper($imp);
 											?>
@@ -269,18 +251,16 @@
 								</table>
 							</div>
 						</div>
-						
 					</div>
 				</div>
 			
 			</form>
 			<!--END OF FORM -->
-			
 			</div>
             <!--main container end-->
         </div>
         <!--wrapper end-->
-		
+
 		<!-- Modal -->
 		<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		  <div class="modal-dialog">

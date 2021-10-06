@@ -208,7 +208,7 @@
 							
 							error_reporting(E_ERROR | E_PARSE);
 							
-							$res = mysqli_query ($connection, "SELECT * FROM students Limit $page1,5 ");
+							$res = mysqli_query ($connection, "SELECT * FROM students Limit $page1,5");
 							while ($rows = mysqli_fetch_array($res)) {
 						?>
 							<tr>

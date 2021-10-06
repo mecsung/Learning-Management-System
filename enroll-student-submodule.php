@@ -112,8 +112,20 @@
 							<input type="hidden" name="id" value="<?php echo $id; ?>" />
 							<!-- ID Number -->
 							<label>ID Number:</label><br>
-							<input type="text" name="idnum" value="<?php echo $idnum; ?>" class="form-input"
-							placeholder="ID Number" maxlength="20" minlength="2">
+							
+							<?php
+								$sql = mysqli_query ($connection, "SELECT * FROM students ORDER BY id DESC LIMIT 1");
+								while ($r = mysqli_fetch_array($sql)){
+									$numid = $r['idnum'];
+								}
+								$number = substr($numid, -5);
+								$number = (int)$number;
+								date_default_timezone_set('Asia/Manila');
+								$dyear = date("Y");
+							?>
+							<input type="text" name="idnum" value="<?php echo $dyear .'-'. ($number+1); ?>" class="form-input"
+							 readonly>
+							
 							<p>
 							<label>Entry Level:</label><br>
 							<!-- ENTRY LEVEL -->
@@ -176,8 +188,8 @@
 							<p>
 							<label>Contact Number:</label><br>
 							<!-- CONTACT NUMBER -->
-							<input type="number" name="cnum" value="<?php echo $cnum; ?>" class="form-input"
-							placeholder="Contact Number" maxlength="20" minlength="2">
+							<input type="text" id="myField" name="cnum" value="<?php echo $cnum; ?>" class="form-input"
+							placeholder="eg. 09xxxxxxxxx" maxlength="11" pattern="(?=.*[0-9]).{11,11}">
 							<p>
 							<label>Email Address:</label><br>
 							<!-- EMAIL ADDRESS -->
@@ -209,19 +221,19 @@
 							<p>
 							<label>Recent 2x2 picture (on white background)</label><br>
 							<!-- ADD IMAGE -->
-							<input type="hidden" name="size" value="1000000">
-							<input class="files" type="file" name="image" class="btn1" accept="image/*">
+							<input type="hidden" name="size" value="1000000" max-size="2000">
+							<input class="files" type="file" name="image" accept="image/*" max-size="2000">
 							<p>
 							
 							<label>Certificate of Good Moral Character</label><br>
 							<!-- ADD GOOD MORAL -->
-							<input type="hidden" name="size" value="1000000">
-							<input class="files" type="file" name="g_moral" value="Choose File" class="btn1" accept="application/pdf">
+							<input type="hidden" name="size" value="1000000" max-size="2000">
+							<input class="files" type="file" name="g_moral" value="Choose File" accept="application/pdf" max-size="2000">
 							<p>
 							
 							<label>Birth Certificate (NSO/PSA)</label><br>
 							<!-- ADD NSO -->
-							<input class="files" type="file" name="NSO" value="Choose File" class="btn1" accept="application/pdf">
+							<input class="files" type="file" name="NSO" value="Choose File" accept="application/pdf" max-size="2000">
 							<p>
 						
 							<div class="enroll-student">
@@ -306,6 +318,10 @@
                 $(".wrapper").toggleClass("collapse");
             });
         });
+
+		$("#myField").keyup(function() {
+			$("#myField").val(this.value.match(/[0-9]*/));
+		});
         </script>
 
     </body>

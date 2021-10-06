@@ -13,13 +13,13 @@
 		function Header()
 		{
 			// Logo
-			$this->Image('logo.png',15,10,20);
+			$this->Image('styles/logo.png',15,10,20);
 			// Font
 			$this->SetFont('Arial','B',22);
 			// Move to the right
 			$this->Cell(30);
 			// Title
-			$this->Cell(30,10,'Harvard University',0,0);
+			$this->Cell(30,10,'Aoba Johsai Academy',0,0);
 			// Font
 			$this->SetFont('Arial','',10);
 			// Move to the right
@@ -82,7 +82,12 @@
 		$pdf->Cell(60,10,$row['reg_date'],1,0,'C');
 		$pdf->Cell(60,10,$row['email'],1,0,'C');
 		$pdf->Cell(30,10,$row['entlev'],1,0,'C');
-		$pdf->Cell(70,10,$row['program'] . " - " .$row['class'],1,0,'C');
+
+		$expr = '/(?<=\s|^)[A-Z]/';
+		preg_match_all($expr, $row['program'], $matches);    
+		$rprogram = implode('', $matches[0]);
+		
+		$pdf->Cell(70,10, $rprogram . " - " .$row['class'],1,0,'C');
 		$pdf->Cell(30,10,$row['term'],1,1,'C');
 	}
 	$pdf->Output();

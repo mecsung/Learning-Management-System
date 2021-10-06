@@ -108,23 +108,23 @@
 		// VALIDATION IF EMPTY
 		if (empty($entlev)) {
 			$errors['1'] = "All field is required";
-			$counter++;
+			
 		}
 		if (empty($fname)) {
 			$errors['1'] = "All field is required";
-			$counter++;
+			
 		}
 		if (empty($mname)) {
 			$errors['1'] = "All field is required";
-			$counter++;
+			
 		}
 		if (empty($lname)) {
 			$errors['1'] = "All field is required";
-			$counter++;
+			
 		}
 		if (empty($gender)) {
 			$errors['1'] = "All field is required";
-			$counter++;
+			
 		}
 		if (empty($cnum)) {
 			$errors['1'] = "All field is required";
@@ -237,34 +237,46 @@
 		$program = htmlspecialchars($_POST['program']);
 		$class = htmlspecialchars($_POST['class']);
 		date_default_timezone_set('Asia/Manila');
-		$enroll_date = date("F j\, Y \| g:i A", time());
-		
+		$enroll_date = date("F j\, Y");
+
+		// VALIDATION SCHOOL YEAR
+		$sql = mysqli_query ($connection, "SELECT * FROM academic_year ORDER BY id DESC LIMIT 1");
+			while ($r = mysqli_fetch_array($sql)) {
+				$sdate = $r['start_date'];
+				$edate = $r['end_date'];
+			}
+			$academic_year = $sdate ." to ". $edate;
+
+		//CHECK ACADEMIC YEAR IF EXISTING IN DATABASE
+		$res = mysqli_query ($connection, "SELECT * FROM students WHERE id='$id'");
+			while ($row = mysqli_fetch_array($res)){
+				$ay = $row['academic_year'];
+			}
+			if ($ay == $academic_year) {
+				$errors['AY'] = "Academic year is not yet ended";
+			}
+
 		// VALIDATION IF EMPTY
 		if (empty($entlev)) {
 			$errors['1'] = "All field is required";
-			$counter++;
 		}
 		if (empty($term)) {
 			$errors['1'] = "All field is required";
-			$counter++;
 		}
 		if (empty($program)) {
 			$errors['1'] = "All field is required";
-			$counter++;
 		}
 		if (empty($class)) {
 			$errors['1'] = "All field is required";
-			$counter++;
 		}
 		
 		if (count($errors) == 0) {
-			
 			$sql = "INSERT INTO studentRecords (idnum, name, entlev, term, program,
 				class, enroll_date) VALUES ('$idnum', '$name', '$entlev', '$term', 
 				'$program', '$class', '$enroll_date');";
 			
 			$newsql = "UPDATE students SET entlev='$entlev', term='$term', program='$program', 
-			class='$class' WHERE idnum='$idnum'";
+			class='$class', academic_year='$academic_year' WHERE idnum='$idnum' ";
 			mysqli_query($connection, $newsql);
 			
 			$result = mysqli_query($connection, $sql);
@@ -513,10 +525,37 @@
 		}
 	}
 	
-	
-	
-	
-	
-	
+	//************************* ADD ANNOUNCEMENT FACULTY ****************************
+	if (isset($_POST['announcce-btn'])) {
+		$announcement = htmlspecialchars($_POST['announcement']);
+		$admin_name = $_SESSION['username'];
+		date_default_timezone_set('Asia/Manila');
+		$post_date = date("F j\, Y");
+
+		$sql = "INSERT INTO announcements (announcement, admin_name, post_date)
+			VALUES (?, ?, ?)";
+			$stmt = $connection->prepare($sql);
+			$stmt->bind_param('sss', $announcement, $admin_name, $post_date);
+
+		if ($stmt->execute()) {
+			header('location: admin-dashboard.php');
+		}
+	}
+
+	//************************* ADD ANNOUNCEMENT FACULTY ****************************
+	if (isset($_POST['add-ay'])) {
+		$start_date = $_POST['school_year'];
+		$end_date = $_POST['schoolyear'];
+
+		$sql = "INSERT INTO academic_year (start_date, end_date)
+			VALUES (?, ?)";
+			$stmt = $connection->prepare($sql);
+			$stmt->bind_param('ss', $start_date, $end_date);
+
+			if ($stmt->execute()) {
+				header('location: admin-dashboard.php');
+			}
+	}
 
 ?>
+
