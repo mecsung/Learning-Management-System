@@ -119,7 +119,13 @@
 				</div>
 				
 				<div class="page">
-					<label><?php echo "Page " . $_GET['page']; ?></label>
+					<label><?php
+					if ( $_GET['page'] == ""){
+						echo "Page 1";
+					} else {
+						echo "Page " . $_GET['page'];
+					}
+					 ?></label>
 				</div>
 				
 				<div class="table">
@@ -161,7 +167,7 @@
 								<tr>
 									<td> <?php echo $row['idnum']; ?> 	</td>
 									<td>
-										<a href="view-student.php?id=<?php echo $row['id']; ?>">
+										<a title="view student" href="view-student.php?id=<?php echo $row['id']; ?>">
 											<?php echo $row['fname'] ." ". substr($row['mname'], 0, 1) .". ". $row['lname']; ?> 
 										</a>
 									</td>
@@ -170,14 +176,14 @@
 									<td> <?php echo $row['reg_date']; ?>					</td>
 									<td>
 										<!-- Button trigger modal -->
-										<button type="button" data-bs-toggle="modal" data-bs-target="#deleteModal">
+										<button type="button" data-bs-toggle="modal" data-bs-target="#deleteModal<?php echo $row['id'];?>">
 											<i class="fas fa-trash-alt"></i>
 										</button>
 									</td>
 								</tr>
 								
 								<!-- Delete Modal -->
-								<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+								<div class="modal fade" id="deleteModal<?php echo $row['id'];?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 								  <div class="modal-dialog">
 									<div class="modal-content">
 									  <div class="modal-header">
@@ -214,7 +220,7 @@
 							<tr>
 							<td> <?php echo $rows['idnum']; ?> 	</td>
 							<td>
-								<a href="view-student.php?id=<?php echo $rows['id']; ?>">
+								<a title="view student" href="view-student.php?id=<?php echo $rows['id']; ?>">
 									<?php echo $rows['fname'] ." ". substr($rows['mname'], 0, 1) .". ". $rows['lname']; ?> 
 								</a>
 							</td>
@@ -223,7 +229,7 @@
 							<td> <?php echo $rows['reg_date']; ?>							</td>
 							<td>
 								<!-- Button trigger modal -->
-								<button type="button" data-bs-toggle="modal" data-bs-target="#deleteModal">
+								<button type="button" data-bs-toggle="modal" data-bs-target="#deleteModal<?php echo $rows['id'];?>">
 									<i class="fas fa-trash-alt"></i>
 								</button>
 							</a>
@@ -231,7 +237,7 @@
 						</tr>
 							
 						<!-- Delete Modal -->
-						<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+						<div class="modal fade" id="deleteModal<?php echo $rows['id'];?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 						  <div class="modal-dialog">
 							<div class="modal-content">
 							  <div class="modal-header">

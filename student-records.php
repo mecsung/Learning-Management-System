@@ -128,10 +128,11 @@
 					<?php if (count($errors) > 0): ?>
 						<div class="alert alert-danger">
 							<label>Errors</label>
+							
 						</div>
 					<?php endif; ?>
 				</div>
-
+				
 				<!-- REGISTRATION FORM -->
 				<div class="registration">
 					<h4>Student Academic Records</h4>
@@ -226,7 +227,9 @@
 									</thead>
 									<tbody>
 								
-									<?php $result = mysqli_query ($connection, "SELECT * FROM studentRecords WHERE idnum='$idnum' ");
+									<?php
+									
+									$result = mysqli_query ($connection, "SELECT * FROM studentRecords WHERE idnum='$idnum' ");
 									while ($hori = mysqli_fetch_array($result)) { ?>
 										<tr>
 											<?php

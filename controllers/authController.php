@@ -388,6 +388,15 @@
 		$mname = htmlspecialchars($_POST['mname']);
 		$lname = htmlspecialchars($_POST['lname']);
 
+		$sql = mysqli_query ($connection, "SELECT * FROM users ORDER BY id DESC LIMIT 1");
+		while ($r = mysqli_fetch_array($sql)){
+			$numid = $r['id_user'];
+		}
+		$number = substr($numid, -5);
+		date_default_timezone_set('Asia/Manila');
+		$dyear = date("Y");
+		$increment = (int)$number + 1;
+
 		$admin_name = $lname . ", " . $fname . ", " . $mname;
 		
 		$email = htmlspecialchars($_POST['email']);
@@ -404,7 +413,22 @@
 		if (empty($email)) {
 			$errors['email'] = "4";
 		}
+		//CHECK EMAIL IF EXISTING IN DATABASE
+		$emailQuery = "SELECT * From users WHERE email=? Limit 1";
+		$stmt = $connection->prepare($emailQuery);
+		$stmt->bind_param('s', $email);
+		$stmt->execute();
+		$result=$stmt->get_result();
+		$userCount = $result->num_rows;
+		$stmt->close();
 		
+		if ($userCount > 0) {
+			$errors['email'] = "5";
+		}
+
+		date_default_timezone_set('Asia/Manila');
+		$reg_date = date("F j\, Y");
+
 		$words = explode(" ", $fname);
 		$acronym = "";
 		foreach ($words as $w) {
@@ -413,10 +437,8 @@
 		$initials = strtolower($acronym);
 		$middle = strtolower($mname[0]);
 		$username = $lname ."". $initials ."". $middle . "@admin-aja.edu.com";
-		$id_user = date("Y")."-";
-
-		date_default_timezone_set('Asia/Manila');
-		$reg_date = date("F j\, Y");
+		
+		$id_user = $dyear .'-'. $increment;
 
 		if (count($errors) == 0) {
 			$verified = False;
@@ -432,21 +454,30 @@
 			
 			if ($stmt->execute()) {
 				// SEND VERIFICATION IN EMAIL
-				sendVerificationEmail($email, $token, $OTP);
+				// sendVerificationEmail($email, $token, $OTP);
 				SendCode($email, $OTP);
 
-				header('location: users-add-admin-submodule.php');
+				header('location: users-module.php');
 			}
 		}
 	}
 	
 	//************************* ADD NEW FACULTY ****************************
 	if (isset($_POST['add-faculty'])) {
-		
+
+		$sql = mysqli_query ($connection, "SELECT * FROM faculty ORDER BY id DESC LIMIT 1");
+		while ($r = mysqli_fetch_array($sql)){
+			$numid = $r['faculty_id'];
+		}
+		$number = substr($numid, -5);
+		date_default_timezone_set('Asia/Manila');
+		$dyear = date("Y");
+		$increment = (int)$number + 1;
+							
 		$fname = htmlspecialchars($_POST['fname']);
 		$mname = htmlspecialchars($_POST['mname']);
 		$lname = htmlspecialchars($_POST['lname']);
-		$fullname = $fname . "" . $mname[0] . ". " . $lname;
+		$fullname = $fname . " " . $mname[0] . ". " . $lname;
 
 		$gender = htmlspecialchars($_POST['gender']);
 		$special = htmlspecialchars($_POST['special']);
@@ -507,7 +538,7 @@
 			$initials = strtolower($acronym);
 			$middle = strtolower($mname[0]);
 			$username = $lname ."". $initials ."". $middle . "@faculty-aja.edu.com";
-			$faculty_id = $id_user = date("Y")."-";
+			$faculty_id = $dyear .'-'. $increment;
 
 			$sql = "INSERT INTO faculty (fullname, gender, special, status,
 			email, pass, username, faculty_id, reg_date)

@@ -142,28 +142,31 @@
                             if (isset($_POST['button-search-faculty'])) {
                                 $search = $_POST['searchfaculty'];
                                 
-                                $result = mysqli_query($connection, "SELECT * FROM faculty
-                                WHERE fullname='$search' or username='$search' ");
-                                
+                                $result = mysqli_query($connection, "SELECT * FROM faculty");
+
                                 if (mysqli_num_rows($result) == 0){ ?>
                                     <div class="alert alert-danger" role="alert">
                                         Cannot find student.
                                     </div>
                                 <?php }
-                                
-                                while ($row = mysqli_fetch_array($result))
-                                { ?>
+
+                                while ($row = mysqli_fetch_array($result)) {
+                                    $string1 = $row['fullname'];
+                                    $string2 = $row['username'];
+                                    if (preg_match("/{$search}/i", $string1) || preg_match("/{$search}/i", $string2)) {
+                                        
+                                    ?>
                                     <tr>
                                         <td> <?php echo $row['faculty_id']; ?> </td>
                                         <td>
-                                            <?php echo $row['fullname']; ?> 
+                                            <a title="Assign Faulty Load" href="facultyLoad.php?id="><?php echo $row['fullname']; ?></a> 
                                         </td>
                                         <td> <?php echo $row['username']; ?>   </td>
                                         <td> <?php echo $row['status']; ?> 	</td>
                                         <td> <?php echo $row['reg_date']; ?>   </td>
                                         <td>
                                             <!-- Button trigger modal -->
-                                            <button type="button" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                                            <button type="button" data-bs-toggle="modal" data-bs-target="#deleteModal<?php echo $row['faculty_id'];?>">
                                                 <i class="fas fa-trash-alt"></i>
                                             </button>
                                         </a>
@@ -171,7 +174,7 @@
                                     </tr>
                                     
                                     <!-- Delete Modal -->
-                                    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal fade" id="deleteModal<?php echo $row['faculty_id'];?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                         <div class="modal-header">
@@ -190,7 +193,7 @@
                                         </div>
                                     </div>
                                     </div>
-                        <?php }
+                        <?php }}
                             } else {
                                 $page = $_GET['page'];
                                 if ($page == "" || $page == "1"){
@@ -208,14 +211,14 @@
                                 <tr>
                                     <td> <?php echo $rows['faculty_id']; ?> </td>
                                     <td>
-                                        <?php echo $rows['fullname']; ?> 
+                                        <a title="Assign Faulty Load" href="facultyLoad.php?id="><?php echo $rows['fullname']; ?></a>
                                     </td>
                                     <td> <?php echo $rows['username']; ?>   </td>
                                     <td> <?php echo $rows['status']; ?> 	</td>
                                     <td> <?php echo $rows['reg_date']; ?>   </td>
                                     <td>
                                         <!-- Button trigger modal -->
-                                        <button type="button" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                                        <button type="button" data-bs-toggle="modal" data-bs-target="#deleteModal<?php echo $rows['faculty_id'];?>">
                                             <i class="fas fa-trash-alt"></i>
                                         </button>
                                     </a>
@@ -223,7 +226,7 @@
                                 </tr>
                                 
                             <!-- Delete Modal -->
-                            <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal fade" id="deleteModal<?php echo $rows['faculty_id'];?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                 <div class="modal-header">
@@ -234,7 +237,7 @@
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                     
                                     <button class="btn btn-danger">
-                                        <a href="delete.php?id=<?php echo $rows['id']; ?>">Yes
+                                        <a href="deleteFaculty.php?id=<?php echo $rows['id']; ?>">Yes
                                             <i class="fas fa-trash-alt"></i>
                                         </a>
                                     </button>
@@ -330,8 +333,24 @@
                             <label>Specialization: </label><br>
                             <input type="text" name="special" placeholder="specialization">
                             <br>
+
                             <label>Employment Status: </label><br>
-                            <input type="text" name="status" placeholder="employment status">
+                            <select name="status">
+                                <option value="" selected disabled>-- Status --</option>
+                                <option
+                                <?php if (isset($status) && $status=="Full-time") echo "selected";?>
+                                value="Full-time">Full-time</option>
+                                <option
+                                <?php if (isset($status) && $status=="Part-time") echo "selected";?>
+                                value="Part-time">Part-time</option>
+                                <option
+                                <?php if (isset($status) && $status=="Temporary") echo "selected";?>
+                                value="Temporary">Temporary</option>
+                                <option
+                                <?php if (isset($status) && $status=="Seasonal") echo "selected";?>
+                                value="Seasonal">Seasonal</option>
+                            </select>
+
                             <br>
                             <label>Email: </label><br>
                             <input type="text" name="email" placeholder="email">

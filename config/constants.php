@@ -3,8 +3,9 @@
 	/*
 		This information is a sensitive data, so when sharing source code with
 		other people you will not share this to them
+		aobajohsaiacademy101@gmail.com
 	*/
-	define('EMAIL', 'aobajohsaiacademy101@gmail.com');
+	define('EMAIL', 'aobajohsaiacademy123@gmail.com');
 	define('PASSWORD', 'aobajohsai101');
 	
 	
