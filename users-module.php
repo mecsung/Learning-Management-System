@@ -1,5 +1,6 @@
 <?php
 	require_once 'controllers/authController.php';
+    require 'controllers/accessController.php';
 ?>
 
 <!DOCTYPE html>
@@ -20,7 +21,7 @@
 		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet">
 	</head>
 
-    <style>
+    <style> 
         .wrapper .content .list-1 .list {
             float: right;
         }
@@ -62,6 +63,18 @@
         }
         .modal .modal-dialog .modal-content .modal-body .body input:hover {
             border: 1px solid red;
+        }
+        .modal .modal-dialog .modal-content .modal-body .body .resendOTP:hover {
+            color: red;
+        }
+        .modal .modal-dialog .modal-content .modal-body .body .inputs input {
+            font-size: 20px;
+	        text-align: center;
+            width: 50px;
+            border-radius: 0em;
+        }
+        .modal .modal-dialog .modal-content .modal-body .body .wrap-dialog {
+            
         }
     </style>
     <body>
@@ -169,6 +182,39 @@
                     <hr></hr>
                 </div>
 
+                <!-- Sudo Mode Modal -->
+                <div class="modal fade" id="sudoMode" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Confirm Access</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                            <form Verified="users-module.php" method="POST" class="sudoMode">
+                                <div class="modal-body">
+                                    <div class="body">
+                                        
+                                        <label>Password: </label><br>
+                                        <input type="password" name="Confpassword" class="form-control" placeholder="password">
+                                        <input hidden type="text" name="user" value="<?php echo $_SESSION['username']; ?>" class="form-control" placeholder="password">
+                                        
+                                        <button type="submit" name="sudoPassword" class="btn btn-danger">Confrim password
+                                            <i class="fas fa-sign-in-alt"></i>
+                                        </button>
+                                        <br>
+                                    </div>
+                                    <hr></hr>
+                                    <center>
+                                        <label>
+                                            Kindly confirm your password to proceed.
+                                        </label>
+                                    </center>
+                                </div>
+                            <form>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="admin-1">
                     <div class="admin-2">
                         <div class="table">
@@ -178,9 +224,9 @@
                                         <th> User ID 		    </th>
                                         <th> Name 		        </th>
                                         <th> Account Type		</th>
-                                        <th> Email				</th>
+                                        <th> Username or Email	</th>
                                         <th> Registration Date	</th>
-                                        <th> Action             </th>
+                                        <th> Status             </th>
                                     </tr>
                                 </thead>
 
@@ -195,19 +241,95 @@
                                                 <td><?php echo $row['id_user']; ?></td>
                                                 <td>
                                                     <?php
-                                                        if ($row['id'] == 1) { ?>
-                                                                Default
-                                                        <?php }
-                                                        else {
-                                                            echo $row['admin_name'];
-                                                        }
+                                                        echo $row['admin_name'];
                                                     ?>
                                                 </td>
                                                 <td><?php echo $row['acctype']; ?></td>
                                                 <td><?php echo $row['username']; ?></td>
                                                 <td><?php echo $row['reg_date']; ?></td>
-                                                <td></td>
+                                                <td>
+                                                    <?php
+                                                    if ($row['verified'] == 0) { ?>
+                                                        <a style="color: red;" title="verify user" type="button"data-bs-toggle="modal" data-bs-target="#verifyUser<?php echo $row['id'];?>">
+                                                            Unverified  
+                                                        </a>
+                                                    <?php }
+                                                    elseif ($row['verified'] == 1){
+                                                        echo '<b style="color: green;"> Verified </b>';
+                                                    }
+                                                    ?>
+                                                </td>
                                             </tr>
+
+                                            <!-- Verify User OTP Modal -->
+                                            <div class="modal fade" id="verifyUser<?php echo $row['id'];?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered">
+                                                    <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">Verify user OTP</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                        <form Verified="users-module.php" method="POST" class="sudoMode">
+                                                            <div class="modal-body">
+                                                                <div class="body">
+
+                                                                    <div class="wrap-dialog" id="wrap">
+                                                                        <div id="dialog">
+                                                                            <h3>Please enter the 6-digit verification code we sent in your Email:</h3>
+                                                                            <label>(The OTP has been sent to <?php echo $row['email'];?>)</label>
+                                                                            <p>
+                                                                            <input hidden type="tex" name="id" value="<?php echo $row['id'];?>">
+                                                                            <div class="inputs">
+                                                                                <input type="number" name="a" 
+                                                                                oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                                                maxLength="1" size="1" min="0" max="9" pattern="[0-9]{1}" />
+                                                                                
+                                                                                <input type="number" name="b"
+                                                                                oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                                                maxLength="1" size="1" min="0" max="9" pattern="[0-9]{1}" />
+                                                                                
+                                                                                <input type="number" name="c"
+                                                                                oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                                                maxLength="1" size="1" min="0" max="9" pattern="[0-9]{1}" />
+                                                                                
+                                                                                <input type="number" name="d"
+                                                                                oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                                                maxLength="1" size="1" min="0" max="9" pattern="[0-9]{1}" />
+                                                                                
+                                                                                <input type="number" name="e"
+                                                                                oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                                                maxLength="1" size="1" min="0" max="9" pattern="[0-9]{1}" />
+                                                                                
+                                                                                <input type="number" name="f"
+                                                                                oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                                                maxLength="1" size="1" min="0" max="9" pattern="[0-9]{1}" />
+                                                                                
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <button type="submit" name="confirmOTP" class="btn btn-danger">Confrim OTP
+                                                                        <i class="fas fa-sign-in-alt"></i>
+                                                                    </button>
+                                                                    <br>
+                                                                    <button class="resendOTP" style="border: none;
+                                                                    background: none;
+                                                                    " type="submit" name="resendOTP">
+                                                                        Resend One-Time Password
+                                                                    </button>
+                                                                    <br>
+                                                                </div>
+                                                                <hr></hr>
+                                                                <center>
+                                                                    <label>
+                                                                        Unverified accounts are illegible to access the site as  admin.
+                                                                    </label>
+                                                                </center>
+                                                            </div>
+                                                        <form>
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                     <?php } ?>
                                 </tbody>
                             </table>
@@ -241,39 +363,6 @@
 		  </div>
 		</div>
 
-        <!-- Sudo Mode Modal -->
-        <div class="modal fade" id="sudoMode" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Confirm Access</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                    <form action="users-module.php" method="POST" class="sudoMode">
-                        <div class="modal-body">
-                            <div class="body">
-                                <label>Password: </label><br>
-                                <input type="password" name="password">
-                                <br>
-                                
-                                <button type="submit" name="sudoPassword" class="btn btn-danger">Confrim password
-                                    <i class="fas fa-sign-in-alt"></i>
-                                </button>
-                                <br>
-                            </div>
-                            <hr></hr>
-                            <center>
-                                <label>
-                                    Kindly confirm your password to proceed.
-                                </label>
-                            </center>
-                        </div>
-                    <form>
-                </div>
-            </div>
-        </div>
-        
-		
 		<div>
 			<?php
 				include("preloader.php")

@@ -1,5 +1,6 @@
 <?php
 	require_once 'controllers/authController.php';
+	require 'controllers/accessController.php';
 ?>
 
 <!DOCTYPE html>
@@ -100,8 +101,10 @@
 						<i class="fas fa-folder-plus"></i>
 					</button>
 					
-					<button type="submit" class="btn btn-success">Download PDF
-						<i class="fas fa-file-download"></i>
+					<button type="submit" class="btn btn-success" name="pdf-btn">
+						<a style="color: white; text-decoration: none;" href="DownloadPDF-course.php" target="_blank">Download PDF
+							<i class="fas fa-file-download"></i>
+						</a>
 					</button>
 				</div>
 

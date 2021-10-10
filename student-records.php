@@ -1,5 +1,6 @@
 <?php
 	require_once 'controllers/authController.php';
+	require 'controllers/accessController.php';
 ?>
 
 <!DOCTYPE html>

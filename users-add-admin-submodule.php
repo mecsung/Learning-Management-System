@@ -1,5 +1,6 @@
 <?php
 	require_once 'controllers/authController.php';
+    require 'controllers/accessController.php';
 ?>
 
 <!DOCTYPE html>
@@ -201,6 +202,16 @@
                                 <!-- EMAIL -->
                                 <input type="text" name="email" value="<?php echo $email; ?>" class="form-input"
                                 placeholder="Email" maxlength="50" minlength="2">
+                                <br>
+                                <label>Password:</label><br>
+                                <!-- PASSWORD -->
+                                <input type="password" name="pass" value="<?php echo $pass; ?>" class="form-input"
+                                placeholder="password" maxlength="50" minlength="2">
+                                <br>
+                                <label>Confirm Password:</label><br>
+                                <!-- CONFIRM PASSWORD -->
+                                <input type="password" name="passConf" value="<?php echo $pass; ?>" class="form-input"
+                                placeholder="confirm password" maxlength="50" minlength="2">
                                 <br><br>
                                 <button type="submit" name="addNewAdmin" class="btn btn-danger">Add New Admin
                                     <i class="fas fa-list"></i>

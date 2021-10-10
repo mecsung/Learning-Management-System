@@ -1,5 +1,6 @@
 <?php
 	require_once 'controllers/authController.php';
+    require 'controllers/accessController.php';
 ?>
 
 <!DOCTYPE html>
@@ -111,9 +112,9 @@
                         </button>
 					
                         <button type="submit" class="btn btn-success" name="pdf-btn">
-                            <a href="downloadPDF.php" target="_blank">Download PDF
+                            <a href="DownloadPDF-faculty.php" target="_blank">Download PDF
                                 <i class="fas fa-file-download"></i>
-                            </a>	
+                            </a>
                         </button>
 				    </div>
 				

@@ -378,8 +378,27 @@
 
 	//************************* CONFRIM ADMIN ACCESS TO ADD NEW ADMIN ****************************
 	if (isset($_POST['sudoPassword'])) {
-		
-		header('location: users-add-admin-submodule.php');
+		$user = $_POST['user'];
+		$Confpassword = $_POST['Confpassword'];
+
+		if (empty($Confpassword)) {
+			$errors['password'] = '1';
+		}
+		if (count($errors)== 0) {
+			$sql = "SELECT * FROM users WHERE username=? Limit 1";
+			$stmt = $connection->prepare($sql);
+			$stmt->bind_param('s', $user);
+			$stmt->execute();
+			$result = $stmt->get_result();
+			$admin = $result->fetch_assoc();
+
+			if (password_verify($Confpassword, $admin['password'])) {
+				header('location: users-add-admin-submodule.php');
+			}
+			else {
+				$errors['password'] = "Access Denied";
+			}
+		}
 	}
 
 	//************************* ADD NEW ADMIN ****************************
@@ -387,6 +406,8 @@
 		$fname = htmlspecialchars($_POST['fname']); //XXS-Protection
 		$mname = htmlspecialchars($_POST['mname']);
 		$lname = htmlspecialchars($_POST['lname']);
+		$pass = htmlspecialchars($_POST['pass']);
+		$passConf = htmlspecialchars($_POST['passConf']);
 
 		$sql = mysqli_query ($connection, "SELECT * FROM users ORDER BY id DESC LIMIT 1");
 		while ($r = mysqli_fetch_array($sql)){
@@ -413,6 +434,9 @@
 		if (empty($email)) {
 			$errors['email'] = "4";
 		}
+		if ($passConf != $pass) {
+			$errors['password'] = "5";
+		}
 		//CHECK EMAIL IF EXISTING IN DATABASE
 		$emailQuery = "SELECT * From users WHERE email=? Limit 1";
 		$stmt = $connection->prepare($emailQuery);
@@ -423,7 +447,7 @@
 		$stmt->close();
 		
 		if ($userCount > 0) {
-			$errors['email'] = "5";
+			$errors['email'] = "6";
 		}
 
 		date_default_timezone_set('Asia/Manila');
@@ -441,16 +465,17 @@
 		$id_user = $dyear .'-'. $increment;
 
 		if (count($errors) == 0) {
+			$pass = password_hash($pass, PASSWORD_DEFAULT);
 			$verified = False;
 			$acctype = 'admin';
 			$OTP = rand(999999, 111111);
 			$token = bin2hex(random_bytes(50));
 
 			$sql = "INSERT INTO users (id_user, admin_name, username, email,
-			acctype, verified, OTP, reg_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+			acctype, verified, OTP, reg_date, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			$stmt = $connection->prepare($sql);
-			$stmt->bind_param('sssssbis', $id_user, $admin_name, $username,
-			$email, $acctype, $verified, $OTP, $reg_date);
+			$stmt->bind_param('sssssbiss', $id_user, $admin_name, $username,
+			$email, $acctype, $verified, $OTP, $reg_date, $pass);
 			
 			if ($stmt->execute()) {
 				// SEND VERIFICATION IN EMAIL
@@ -586,6 +611,42 @@
 			if ($stmt->execute()) {
 				header('location: admin-dashboard.php');
 			}
+	}
+
+	//************************* VERIFY NEW USER ADMIN OTP ****************************
+	if (isset($_POST['confirmOTP'])) {
+
+		$id = $_POST['id'];
+		$code = $_POST['a'] . $_POST['b'] . $_POST['c'] .
+					$_POST['d'] . $_POST['e'] . $_POST['f'];
+		$otp_code = intval($code);
+		
+        $check_code = "SELECT * FROM users WHERE OTP = $otp_code";
+		
+		if ($otp_code == NULL) {
+			$errors['otp-error'] = "You've entered incorrect code!";
+		}
+		else {
+			$code_res = mysqli_query($connection, $check_code);
+			if(mysqli_num_rows($code_res) > 0){
+				$fetch_data = mysqli_fetch_assoc($code_res);
+				$fetch_code = $fetch_data['OTP'];
+				$id = $fetch_data['id'];
+				$code = 0;
+				$verified = 1;
+				
+				$update_otp = "UPDATE users SET OTP = $code, verified = $verified WHERE OTP = $fetch_code";
+				$update_res = mysqli_query($connection, $update_otp);
+				if($update_res){
+					header('location: users-module.php');
+					exit();
+				}else{
+					$errors['otp-error'] = "Failed while updating code!";
+				}
+			}else{
+				$errors['otp-error'] = "You've entered incorrect code!";
+			}
+		}
 	}
 
 ?>

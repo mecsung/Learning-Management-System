@@ -2,7 +2,7 @@
 	require_once 'controllers/authController.php';
 	require_once 'FPDF/fpdf.php';
 	
-	$sql = "SELECT * FROM students";
+	$sql = "SELECT * FROM faculty";
 	$data = mysqli_query($connection, $sql);
 	
 	
@@ -32,13 +32,13 @@
 			// Move to the right
 			$this->Cell(30);
 			// Sub Title
-			$this->Cell(30,10,'Student List Record',0,0);
+			$this->Cell(30,10,'Faculty List Record',0,0);
 			// Font
 			$this->SetFont('Arial','',10);
 			// Move to the right
 			$this->Cell(200);
 			// Admin
-			$this->Cell(30,10,'Admin : ' . $_SESSION['email'],0,1);
+			$this->Cell(30,10,'Admin : ' . $_SESSION['username'],0,1);
 			// Font
 			$this->SetFont('Arial','',10);
 			// Move to the right
@@ -65,30 +65,23 @@
 	$pdf->SetFont('Arial','B',10);
 	$pdf->AddPage();
 	$pdf->Cell(30,10,'ID number',1,0,'C');
-	$pdf->Cell(60,10,'Name',1,0,'C');
+	$pdf->Cell(80,10,'Name',1,0,'C');
 	$pdf->Cell(60,10,'Reg. Date',1,0,'C');
-	$pdf->Cell(60,10,'Email',1,0,'C');
-	$pdf->Cell(30,10,'Level',1,0,'C');
-	$pdf->Cell(70,10,'Program and Class',1,0,'C');
-	$pdf->Cell(30,10,'Term',1,1,'C');
+	$pdf->Cell(60,10,'Personal Email',1,0,'C');
+	$pdf->Cell(80,10,'School Email',1,0,'C');
+	$pdf->Cell(30,10,'Status',1,1,'C');
 		
 		
 	while($row = mysqli_fetch_assoc($data))
 	{
-		$name = strtoupper($row['lname']) .", ".$row['fname'] .", ". substr($row['mname'], 0, 1) .".";
+		$name = strtoupper($row['fullname']);
 		$pdf->SetFont('Arial','',10);
-		$pdf->Cell(30,10,$row['idnum'],1,0,'C');
-		$pdf->Cell(60,10,$name,1,0,'C');
+		$pdf->Cell(30,10,$row['faculty_id'],1,0,'C');
+		$pdf->Cell(80,10,$name,1,0,'C');
 		$pdf->Cell(60,10,$row['reg_date'],1,0,'C');
 		$pdf->Cell(60,10,$row['email'],1,0,'C');
-		$pdf->Cell(30,10,$row['entlev'],1,0,'C');
-
-		$expr = '/(?<=\s|^)[A-Z]/';
-		preg_match_all($expr, $row['program'], $matches);    
-		$rprogram = implode('', $matches[0]);
-		
-		$pdf->Cell(70,10, $rprogram . " - " .$row['class'],1,0,'C');
-		$pdf->Cell(30,10,$row['term'],1,1,'C');
+		$pdf->Cell(80,10,$row['username'],1,0,'C');
+		$pdf->Cell(30,10,$row['status'],1,1,'C');
 	}
 	$pdf->Output();
 ?>

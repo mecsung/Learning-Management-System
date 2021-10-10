@@ -1,5 +1,6 @@
 <?php
 	require_once 'controllers/authController.php';
+	require 'controllers/accessController.php';
 ?>
 
 <!DOCTYPE html>
@@ -100,10 +101,6 @@
 							<i class="fas fa-backspace"></i>
 						</button>
 					</a>
-					
-					<button type="submit" class="btn btn-success">Download PDF
-						<i class="fas fa-file-download"></i>
-					</button>
 				</div>
 
                 <!-- DISPLAY ERRORS -->
@@ -118,12 +115,6 @@
 					<div class="courses">
 						<div class="add-courses">
 							<div class="courses-2">
-								<div class="search">
-									<button type="submit" name="search-class" class="">
-										<i class="fas fa-search"></i>
-									</button>
-									<input type="text" name="search" placeholder="type here...">
-								</div>
 								<br>
 								
                                 <?php
