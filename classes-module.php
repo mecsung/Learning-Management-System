@@ -124,8 +124,8 @@
 									<table class="table table-bordered">
 										<thead>
 										<tr>
-											<th> Program code  		</th>
-											<th> Prgram name		</th>
+											<th> Program name  		</th>
+											<th> Prgram code		</th>
 											<th> Date				</th>
 										</tr>
 										</thead>
@@ -139,7 +139,7 @@
 										{ ?>
 										<tr>
 											<td>
-												<a href="view-program.php?id=<?php echo $rows['id']; ?>"><?php echo $rows['program_name']; ?></a>
+												<a title="view classes" href="view-program.php?id=<?php echo $rows['id']; ?>"><?php echo $rows['program_name']; ?></a>
 											</td>
 											<td><?php echo $rows['program_code']; ?></td>
 											<td><?php echo $rows['date_created']; ?></td>

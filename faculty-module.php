@@ -263,7 +263,7 @@
                                 $a = ceil($a);
                                 for ($b=1; $b<=$a; $b++) { ?>
                                     <li class="page-item"><a class="page-link" 
-                                    href="student-module.php?page=<?php echo $b ." " ;?>"><?php echo $b; ?></a>
+                                    href="faculty-module.php?page=<?php echo $b ." " ;?>"><?php echo $b; ?></a>
                                     </li>
                                 
                                 <?php

@@ -20,7 +20,7 @@
 		<!-- BOOTSRAP -->
 		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet">
 	</head>
-
+	
     <body>
         <!--wrapper start-->
         <div class="wrapper">
@@ -118,10 +118,19 @@
 									<button type="submit" name="search-course" class="">
 										<i class="fas fa-search"></i>
 									</button>
-									<input type="text" name="search" placeholder="type here...">
+									<input type="text" name="search" placeholder="filter search...">
 								</div>
 								
 								<br>
+								<div class="page">
+									<label><?php
+									if ( $_GET['page'] == ""){
+										echo "Page 1";
+									} else {
+										echo "Page " . $_GET['page'];
+									}
+									?></label>
+								</div>
 								<div class="table">
 									<table class="table table-bordered">
 										<thead>
@@ -131,15 +140,25 @@
 											<th> Units				</th>
 											<th> Year				</th>
 											<th> Program			</th>
+											<th> Status				</th>
 										</tr>
 										</thead>
 										<tbody>
 										
 										<?php
 											error_reporting(E_ERROR | E_PARSE);
-												
-											$result = mysqli_query ($connection, "SELECT * FROM courses");
+
+											$page = $_GET['page'];
+											if ($page == "" || $page == "1"){
+												$page1 = 0;
+											}
+											else {
+												$page1 = ($page*7)-7;
+											}
+
+											$result = mysqli_query ($connection, "SELECT * FROM courses Limit $page1,7");
 											while ($rows = mysqli_fetch_array($result))
+											
 										{ ?>
 										<tr>
 											<td><?php echo $rows['course_name']; ?></td>
@@ -147,12 +166,59 @@
 											<td><?php echo $rows['units']; ?></td>
 											<td><?php echo $rows['entlev']; ?></td>
 											<td><?php echo $rows['program']; ?></td>
+											<td>
+												<?php 
+												if ($rows['status'] == 'enable') { ?>
+													<a title="<?php echo $rows['id']; ?>" class="enable" title="click to disable" data-bs-toggle="modal" 
+													data-bs-target="#turnOff<?php echo $rows['id']; ?>"><label><b>enable</b></label></a>
+												<?php }
+												?>
+											</td>
 										</tr>
+
+										<!-- Disable -->
+										<div class="modal fade" id="turnOff<?php echo $rows['id']; ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+										<div class="modal-dialog">
+											<div class="modal-content">
+											<div class="modal-header">
+												<h6 class="modal-title" id="exampleModalLabel">Are you sure you want to disable course?</h6>
+												<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+											</div>
+											<input hidden name="id" value="<?php echo $rows['id']; ?>" >
+											<div class="modal-footer">
+												<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+												
+												<button type="submit" name="turnOff"  class="btn btn-danger">
+													<i class="fas fa-sign-out-alt"></i>Yes
+												</button>
+											</div>
+											</div>
+										</div>
+										</div>
+										
 										<?php }
 											
 											?>
 									</table>
 								</div>
+
+								<nav aria-label="Page navigation example">
+									<ul class="pagination justify-content-end">
+										<?php
+											$res1 = mysqli_query($connection, "SELECT * FROM students");
+											$count = mysqli_num_rows($res1);
+											$a = $count/7;
+											$a = ceil($a);
+											for ($b=1; $b<=$a; $b++) { ?>
+												<li class="page-item"><a class="page-link" 
+												href="courses-module.php?page=<?php echo $b ." " ;?>"><?php echo $b; ?></a>
+												</li>
+											
+											<?php
+											}
+											?>
+									</ul>
+								</nav>
 							</div>
 						</div>
 					</div>	
@@ -230,6 +296,7 @@
 						?>
 						<select name="program" class="form-input">
 							<option value="" selected disabled>-- Program --</option>
+							<option value="General" >General</option>
 							<?php while ($row1 = mysqli_fetch_array($output)):; ?>
 							<option>
 								<?php echo $row1[1]; ?>

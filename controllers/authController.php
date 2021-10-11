@@ -649,5 +649,33 @@
 		}
 	}
 
+	//************************* VERIFY NEW USER ADMIN OTP ****************************
+	if (isset($_POST['courseSelect'])) {
+		$id = $_POST['id'];
+		$idnum = $_POST['idnum'];
+		$fullname = $_POST['fullname'];
+		$year_term = $_POST['year_term'];
+		$program_class = $_POST['program_class'];
+
+		$sql = "INSERT INTO course_enrolled (idnum, fullname, year_term, program_class, course) VALUES (?, ?, ?, ?, ?)";
+		$stmt = $connection->prepare($sql);
+
+		foreach ($_POST['check'] as $value) {
+			$stmt->bind_param('sssss', $idnum, $fullname, $year_term, $program_class, $value);
+			$stmt->execute();	
+		}
+		header("location: enroll-courses.php?id=$id");
+	}
+	//************************* COURSE TURNED OFF ****************************
+	if (isset($_POST['turnOff'])) {
+		$id = $_POST['id'];
+
+		$update = "UPDATE courses SET status = 'disable' WHERE id = $id";
+		$res = mysqli_query($connection, $update);
+		if($res){
+			header('location: courses-module.php');
+			exit();
+		}
+	}
 ?>
 
