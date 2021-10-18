@@ -160,7 +160,7 @@
                                     <tr>
                                         <td> <?php echo $row['faculty_id']; ?> </td>
                                         <td>
-                                            <a title="Assign Faulty Load" href="facultyLoad.php?id="><?php echo $row['fullname']; ?></a> 
+                                            <a title="Assign Faulty Load" href="facultyLoad.php?id=<?php echo $rows['id']; ?>"><?php echo $row['fullname']; ?></a> 
                                         </td>
                                         <td> <?php echo $row['username']; ?>   </td>
                                         <td> <?php echo $row['status']; ?> 	</td>
@@ -212,7 +212,7 @@
                                 <tr>
                                     <td> <?php echo $rows['faculty_id']; ?> </td>
                                     <td>
-                                        <a title="Assign Faulty Load" href="facultyLoad.php?id="><?php echo $rows['fullname']; ?></a>
+                                        <a title="Assign Faulty Load" href="facultyLoad.php?id=<?php echo $rows['id']; ?>"><?php echo $rows['fullname']; ?></a>
                                     </td>
                                     <td> <?php echo $rows['username']; ?>   </td>
                                     <td> <?php echo $rows['status']; ?> 	</td>
@@ -285,7 +285,7 @@
 				<h6 class="modal-title" id="exampleModalLabel">Are you sure you want to logout?</h6>
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			  </div>
-			  <div class="modal-footer">
+			  <div class="modal-footer">                                                        
 				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
 				
 				<button class="btn btn-danger">
