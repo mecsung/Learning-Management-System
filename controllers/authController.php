@@ -649,7 +649,7 @@
 		}
 	}
 
-	//************************* VERIFY NEW USER ADMIN OTP ****************************
+	//************************* ENROLL STUDENT COURSES ****************************
 	if (isset($_POST['courseSelect'])) {
 		$id = $_POST['id'];
 		$idnum = $_POST['idnum'];
@@ -665,6 +665,21 @@
 			$stmt->execute();	
 		}
 		header("location: enroll-courses.php?id=$id");
+	}
+	//************************* ASSIGN FACULTY COURSE LOADS ****************************
+	if (isset($_POST['facultyLoads'])) {
+		$id = $_POST['id'];
+		$faculty_id = $_POST['faculty_id'];
+		$fullname = $_POST['fullname'];
+
+		$sql = "INSERT INTO faculty_loads (faculty_id, fullname, course_name) VALUES (?, ?, ?)";
+		$stmt = $connection->prepare($sql);
+
+		foreach ($_POST['check'] as $value) {
+			$stmt->bind_param('sss', $faculty_id, $fullname, $value);
+			$stmt->execute();
+		}
+		header("location: facultyLoad.php?id=$id");
 	}
 	//************************* COURSE TURNED OFF ****************************
 	if (isset($_POST['turnOff'])) {

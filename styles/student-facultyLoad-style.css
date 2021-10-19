@@ -118,16 +118,3 @@ background-size: cover;
 height: 100vh;
 transition: 0.3s;
 }
-.wrapper .content .facultyinfo {
-    font-size: 14px;
-    margin-bottom: 50px;
-}
-.wrapper .content .facultyinfo label {
-    font-weight: bold;
-}
-.wrapper .content .facultyinfo button {
-    float: right;
-}
-.wrapper .content .facultyinfo .table .table tbody tr td a {
-    text-decoration: none;
-}
