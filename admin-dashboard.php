@@ -344,7 +344,7 @@
 							<div class="piechart" id="piechart_3d"></div>
 						</div>
 					</div>
-				</dov>
+				</div>
 			</div>
             <!--main container end-->
         </div>

@@ -1,0 +1,123 @@
+*{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-decoration: none;
+    box-sizing: border-box;
+    font-family: "Roboto", sans-serif;
+  }
+  
+  body{
+    background: #fff;
+  }
+  /********** HEADER **********/
+  .wrapper .header{
+    z-index: 1;
+    background: #A41034;
+    position: fixed;
+    width: calc(100% - 0%);
+    height: 70px;
+    display: flex;
+    top: 0;
+  }
+  .wrapper .header .header-menu{
+    width: calc(100% - 0%);
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+  }
+  .wrapper .header .header-menu .title{
+    color: #fff;
+    font-size: 20px;
+    text-transform: uppercase;
+    font-weight: 900;
+  }
+  /********** SIDEBAR **********/
+  .wrapper .sidebar{
+    z-index: 1;
+    background: #FFF;
+    box-shadow: 10px 10px 15px grey;
+    position: fixed;
+    top: 70px;
+    width: 180px;
+    height: calc(100% - 9%);
+    transition: 0.3s;
+    transition-property: width;
+    overflow-y: auto;
+  }
+  .wrapper .sidebar .sidebar-menu{
+    overflow: hidden;
+  }
+  .wrapper .sidebar .sidebar-menu .profile img{
+    margin: 20px 0;
+    width: 90px;
+    height: 90px;
+  }
+  .wrapper .sidebar .sidebar-menu .profile p{
+    color: grey;
+    font-weight: 650;
+  }
+  .wrapper .sidebar .sidebar-menu .item{
+    width: 250px;
+    overflow: hidden;
+    font-size: 14px;
+  }
+  .wrapper .sidebar .sidebar-menu .item a{
+    text-decoration: none;
+  }
+  .wrapper .sidebar .sidebar-menu .item .menu-btn{
+    display: block;
+    color: #000;
+    position: relative;
+    padding: 10px 20px;
+    transition: 0.3s;
+    transition-property: color;
+  }
+  .wrapper .sidebar .sidebar-menu .item button {
+      border: none;
+      background: none;
+  }
+  .wrapper .sidebar .sidebar-menu .item button:hover {
+      color: #FFF;
+  }
+  /********** SIDEBAR BUTTONS **********/
+  .wrapper .sidebar .sidebar-menu .item .menu-btn span{
+      padding: 20px;
+      background: #A41034;
+      border-radius: 2em;
+      color: #fff;
+  }
+  .wrapper .sidebar .sidebar-menu .item .menu-btn span:hover{
+      background: #C2133D;
+  }
+  .wrapper .sidebar .sidebar-menu .item .menu-btn:hover{
+      background: #C2133D;
+      color: #FFF;
+      text-decoration: none;
+  }
+  .wrapper .sidebar .sidebar-menu .item .menu-btn i{
+      margin-right: 20px;
+  }
+  /********** LOGOUT MODAL **********/
+  .modal .modal-dialog .modal-content .modal-footer button {
+      font-size: 14px;
+  }
+  .modal .modal-dialog .modal-content .modal-footer button a {
+      text-decoration: none;
+      color: #FFF;
+  }
+  
+  
+  
+  /********** MAIN CONTAINER **********/
+  .wrapper .content{
+    width: (100% - 250px);
+    margin-top: 70px;
+    margin-left: 220px;
+    padding: 15px;
+    background-size: cover;
+    height: 100vh;
+    transition: 0.3s;
+  }

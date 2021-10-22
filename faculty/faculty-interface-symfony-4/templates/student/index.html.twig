@@ -1,0 +1,97 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Faculty Dashboard {% endblock %}
+
+{% block stylesheets %}
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico"/>
+	<!-- CUSTOM STYLESHEET -->
+	<link rel="stylesheet" href="assets/student.css">
+	<!-- FONT AWESOME -->
+	<script src="https://kit.fontawesome.com/575abfd474.js" crossorigin="anonymous"></script>
+	<!-- BOOTSTRAP -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+{% endblock %}
+
+{% block body %}
+<body>
+    <!--wrapper start-->
+    <div class="wrapper">
+        <!--header menu start-->
+        <div class="header">
+            <div class="header-menu">
+                <div class="title">Aoba Johsai Academy</div>
+            </div>
+        </div>
+        <!--header menu end-->
+        <!--sidebar start-->
+        <div class="sidebar">
+            <div class="sidebar-menu">
+                <center class="profile">
+                    <img src="assets/logo.png" alt="">
+                    <p><?php echo $_SESSION['username']; ?></p>
+                </center>
+                <hr></hr>
+                <li class="item">
+                    <a href="/dashboard" class="menu-btn">
+                        <i class="fas fa-desktop"></i>Dashboard
+                    </a>
+                </li>
+                <li class="item">
+                    <a href="/student" class="menu-btn">
+                        <span><i class="fas fa-graduation-cap"></i>Student</span>
+                    </a>
+                </li>
+                <li class="item">
+                    <a href="/grading" class="menu-btn">
+                        <i class="fas fa-file-excel"></i>Grading
+                    </a>
+                </li>
+                <li class="item">
+                    <a href="/profile" class="menu-btn">
+                        <i class="fas fa-users-cog"></i>Profile
+                    </a>
+                </li>
+                
+                <!-- Button trigger modal -->	
+                <li class="item">
+                    <div class="menu-btn">
+                        <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            <i class="fas fa-sign-out-alt"></i>Logout
+                        </button>
+                    </div>	
+                </li>
+            </div>
+        </div>
+        <!--sidebar end-->
+        <!--main container start-->
+        <div class="content">
+            <div class="directory">
+                <p>My Students / </p>
+            </div>
+            <hr></hr>
+            
+            <table class="table table-bordered">
+                <tr>
+                    <th>Student ID</th>
+                    <th>Student Name</th>
+                    <th>Year</th>
+                    <th>Program & Class</th>
+                    <th>Action</th>
+                </tr>
+
+                <tbody>
+                    <tr>
+                        
+                    </tr>
+                </tbody>
+            </table>
+
+
+        </div>
+        <!--main container end-->
+    </div>
+    <!--wrapper end-->
+
+    </div>
+</body>
+{% endblock %}
