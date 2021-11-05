@@ -550,7 +550,7 @@
 		}
 		
 		if (count($errors) == 0) {
-			$pass = password_hash($pass, PASSWORD_DEFAULT);
+			$pass = password_hash($pass, PASSWORD_BCRYPT);
 			$acctype = 'faculty';
 			date_default_timezone_set('Asia/Manila');
 			$reg_date = date("F j\, Y");
@@ -566,7 +566,7 @@
 			$faculty_id = $dyear .'-'. $increment;
 
 			$sql = "INSERT INTO faculty (fullname, gender, special, status,
-			email, pass, username, faculty_id, reg_date)
+			email, password, username, faculty_id, reg_date)
 			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 			$stmt = $connection->prepare($sql);
 			$stmt->bind_param('sssssssss', $fullname, $gender, $special, $status,

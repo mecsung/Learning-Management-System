@@ -10,6 +10,14 @@
 	<script src="https://kit.fontawesome.com/575abfd474.js" crossorigin="anonymous"></script>
 	<!-- BOOTSTRAP -->
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+
+	<style>
+		.alert {
+			margin-top:  10px;
+			padding:  5px;
+			font-size: 14px;
+		}
+	</style>
 {% endblock %}
 
 {% block body %}
@@ -77,20 +85,34 @@
                 
                 <!-- LOGIN MODULE -->
                 Login
-                <form action="index.php" method="POST">
-                    <div class="inputs">
-                        <i class="fas fa-user" fa-2x cust></i>
-                        <input type="text" name="username" class="form-control" placeholder="username or email">
-                        <i class="fas fa-lock"></i>
-                        <input type="password" name="password" class="form-control" placeholder="password">
-                    </div>
-                    <button type="submit" name="login" class="btn btn-warning">LOGIN</button>
+                <form method="post">
+                	<div class="inputs">
+						{% if error %}
+						    <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+						{% endif %}
+
+						<i class="fas fa-user" fa-2x cust></i>
+				        <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus placeholder="email">
+
+				        <i class="fas fa-lock"></i>
+				        <input type="password" name="password" id="inputPassword" autocomplete="current-password" class="form-control" required placeholder="password">
+
+				        <input type="hidden" name="_csrf_token"
+				            value="{{ csrf_token('authenticate') }}">
+
+				        <button class="btn btn-warning" type="submit">LOGIN</button>
+
+				       {% if error %}
+				            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+				        {% endif %}
+
+				        {% if app.user %}
+				            <div class="mb-3">
+				                You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+				            </div>
+				        {% endif %}
+                	</div>
                 </form>
-                
-                <!-- DISPLAY ERRORS -->
-                <div class="alert">
-                    
-                </div>
             </div>
         </div>
     </div>
@@ -100,3 +122,5 @@
 
 </body>
 {% endblock %}
+
+

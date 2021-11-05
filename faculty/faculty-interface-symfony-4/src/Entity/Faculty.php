@@ -2,7 +2,11 @@
 
 namespace App\Entity;
 
+use App\Repository\facultyRepository; //create faculty repository
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Faculty
@@ -10,7 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="faculty")
  * @ORM\Entity
  */
-class Faculty
+class Faculty implements UserInterface 
 {
     /**
      * @var int
@@ -57,12 +61,11 @@ class Faculty
     private $email;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="pass", type="string", length=50, nullable=false)
+     * @var string The hashed password
+     * @ORM\Column(type="string", length=255)
      */
-    private $pass;
-
+    private $password;
+    
     /**
      * @var string
      *
@@ -84,6 +87,13 @@ class Faculty
      */
     private $regDate;
 
+     /**
+     * @ORM\Column(type="json")
+     */
+    private $roles = [];
+
+
+    //----------------------------------------------------------------------------
     public function getId(): ?int
     {
         return $this->id;
@@ -149,17 +159,49 @@ class Faculty
         return $this;
     }
 
-    public function getPass(): ?string
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function getUserIdentifier(): string
     {
-        return $this->pass;
+        return (string) $this->username;
     }
 
-    public function setPass(string $pass): self
+    /**
+     * @see PasswordAuthenticatedUserInterface
+     */
+    public function getPassword(): string
     {
-        $this->pass = $pass;
+        return $this->password;
+    }
+
+    public function setPassword(string $password): self
+    {
+        $this->password = $password;
 
         return $this;
     }
+    /**
+     * Returning a salt is only needed, if you are not using a modern
+     * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
+     *
+     * @see UserInterface
+     */
+    public function getSalt(): ?string
+    {
+        return null;
+    }
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials()
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
+    }
+    
 
     public function getUsername(): ?string
     {
@@ -197,5 +239,23 @@ class Faculty
         return $this;
     }
 
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
 
 }
