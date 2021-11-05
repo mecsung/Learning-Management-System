@@ -20,6 +20,14 @@
 		<!-- BOOTSRAP -->
 		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet">
 	</head>
+
+    <style>
+        .view {
+            color: blue;
+            text-decoration: none;
+        }
+
+    </style>
     <body>
 
         <!--wrapper start-->
@@ -146,61 +154,23 @@
                                 error_reporting(E_ERROR | E_PARSE);
 
                                 //Faculty Assign Loads
-                                $sql = mysqli_query ($connection, "SELECT * FROM faculty_loads");
+                                $sql = mysqli_query ($connection, "SELECT * FROM faculty_loads 
+                                    WHERE faculty_id='$faculty_id'");
                                 while ($rows = mysqli_fetch_array($sql)) { 
                                 ?>
                                 <tr>
                                     <td><?php echo $rows['id']; ?></td>
                                     <td><?php echo $rows['course_name']; ?></td>
-                                    
+
                                     <td>
-                                        <button title="<?php echo $rows['id']; ?>" type="button" style="border: none; background: none; color: blue;" 
-                                        data-bs-toggle="modal" data-bs-target="#assignClass<?php echo $rows['id'];?>">
-                                        View enrolled students</button>
+                                        <a class="view" href="view-my-students.php?id=<?php echo $rows['id']; ?>">
+                                            View enrolled students
+                                        </a>
                                     </td>
                                 </tr>
 
-                                <div class="modal fade" id="assignClass<?php echo $rows['id'];?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog modal-lg">
-                                        <div class="modal-content" style="background: white;">
-                                            <div class="modal-header">
-                                                <h4 class="modal-title" id="exampleModalLabel">List of Course</h4>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-
-                                            <div class="modal-body">
-                                                <?php
-                                                    $course_id = $rows['id'];
-                                                    //Faculty Assign Class
-                                                    $course = mysqli_query ($connection, "SELECT * FROM faculty_loads WHERE id='$course_id'");
-                                                    while ($r = mysqli_fetch_array($course)) {
-                                                        $course = $r['course_name'];
-                                                    }
-                                                    echo $course;
-
-                                                    $class = mysqli_query ($connection, "SELECT * FROM course_enrolled WHERE course='$course'");
-                                                    while ($r = mysqli_fetch_array($class)) {
-                                                        $class = $r['program_class'];
-                                                    }
-                                                    echo $class;
-                                                ?>
-                                            </div>
-
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                                
-                                                <button type="submit" name="facultyClass" class="btn btn-danger">
-                                                    <i class="fas fa-sign-out-alt"></i>Assign Class
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
                                 <?php } ?>              
-                            </tbody>
-
-                            
+                            </tbody>  
                         </table>
                     </div>
 
@@ -273,64 +243,6 @@
 						</div>
 					</div>
 				</form>
-                                                
-                <!-- Assign Class Modal -->
-                <div class="modal fade" id="assignClass<?php echo $rows['id'];?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h4 class="modal-title" id="exampleModalLabel">List of Course</h4>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                
-                                <input name="id" value="<?php echo $course_id; ?>" >
-                                <?php
-                                    $course = mysqli_query ($connection, "SELECT * FROM faculty_loads WHERE id='$course_id'");
-                                    $c = mysqli_fetch_array($course);
-                                    $course_name = $c['course_name'];
-                                ?>
-                                <input name="id" value="<?php echo $course_name; ?>" >
-                                <input name="faculty_id" value="<?php echo $faculty_id; ?>" >
-                                <input name="fullname" value="<?php echo $fullname; ?>" >
-
-                                <div class="table">
-                                    <table class="table table-striped">
-                                        <thead>
-                                        <tr>
-                                            <th> Year 	    </th>
-                                            <th> Program	</th>
-                                            <th> Class		</th>
-                                        </tr>
-                                        </thead>
-
-                                        <?php
-                                        error_reporting(E_ERROR | E_PARSE);
-                                
-                                        $course = mysqli_query ($connection, "SELECT * FROM courses");
-                                        while ($rows = mysqli_fetch_array($course)) {?>
-
-                                        <tbody>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                        </tbody>
-                                            
-                                        <?php }
-                                        ?>
-                                    </table>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                
-                                <button type="submit" name="facultyClass" class="btn btn-danger">
-                                    <i class="fas fa-sign-out-alt"></i>Assign Class
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 			</div>
             <!--main container end-->
         </div>

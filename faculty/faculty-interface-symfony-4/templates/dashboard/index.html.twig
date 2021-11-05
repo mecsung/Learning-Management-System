@@ -48,7 +48,7 @@
             <div class="sidebar-menu">
                 <center class="profile">
                     <img src="assets/logo.png" alt="">
-                    <p><?php echo $_SESSION['username']; ?></p>
+                    <p>{{ app.user.username }}</p>
                 </center>
                 <hr></hr>
                 <li class="item">
@@ -75,9 +75,13 @@
                 <!-- Button trigger modal -->	
                 <li class="item">
                     <div class="menu-btn">
-                        <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                            <i class="fas fa-sign-out-alt"></i>Logout
-                        </button>
+                        {% if app.user %}
+                        <a href="{{ path('app_logout') }}">
+                            <button>
+                                <i class="fas fa-sign-out-alt"></i>Logout
+                            </button>
+                        </a>
+                        {% endif %}
                     </div>	
                 </li>
             </div>

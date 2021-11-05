@@ -692,5 +692,20 @@
 			exit();
 		}
 	}
+
+	//************************* ASSIGN CLASS TO FACULTY ****************************
+	if (isset($_POST['assignfacultyClass'])) {
+		$id = $_POST['id'];
+		$class = $_POST['class'];
+
+		$str = preg_replace('~[^A-Z_0-9]~', '', $class);
+
+		$update = "UPDATE faculty_loads SET class='$str' WHERE id=$id";
+		$res = mysqli_query($connection, $update);
+		if($res){
+			header("location: view-my-students.php?id=$id");
+			exit();
+		}
+	}
 ?>
 

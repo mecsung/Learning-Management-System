@@ -260,7 +260,8 @@
 									<input hidden name="idnum" value="<?php echo $idnum; ?>" >
 									<input hidden name="fullname" value="<?php echo $name; ?>" >
 									<input hidden name="year_term" value="<?php echo $entlev . " ". $term; ?>" >
-									<input hidden name="program_class" value="<?php echo $rprogram . " ". $class; ?>" >
+									<input hidden name="program_class" value="<?php echo $rprogram . 
+									$class; ?>" >
 									<div class="table">
 										<table class="table table-striped">
 											<thead>
