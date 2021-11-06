@@ -1,10 +1,9 @@
 # Online College Information Management
 
-<a href="https://imgflip.com/gif/5t6lup"><img src="https://imgflip.com/gif/5t6lup" /></a>
-
 ## Table of contents
 * [General info](#general-info)
 * [Technologies](#technologies)
+* [Contributors](#contributors)
 
 ## General info
 The manual process of enrolling and grading can be challenging and inefficient. It isn't easy to achieve efficiency and reliability using manual work. This manual process is very inconsistent, requires more time, and leaves a lot of room for errors. Furthermore, it takes more effort and physical space to keep track of the students' documents, keep details secure, and it is hard to make changes.
@@ -14,6 +13,8 @@ This is why the developers came up with the idea of putting the entire process i
 ## Technologies
 Project is created with:
 <br><br>
+- Symfony 4 Backend Framework
+- Bootstrap 5 Frontend Framework
 <img align="left" alt="Visual Studio Code" width="26px" src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/visual-studio-code/visual-studio-code.png" />
 <img align="left" alt="HTML5" width="26px" src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/html/html.png" />
 <img align="left" alt="CSS3" width="26px" src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/css/css.png" />
@@ -25,5 +26,10 @@ Project is created with:
 <img align="left" alt="GitHub" width="26px" src="https://raw.githubusercontent.com/github/explore/78df643247d429f6cc873026c0622819ad797942/topics/github/github.png" />
 <img align="left" alt="Terminal" width="26px" src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/terminal/terminal.png" />
 
-
+## Contributors
+- Legaspi, Marc Ace
+- Recto, Christian Justine
+- Vidallon, Cesar Dave
+- Nequinto, Marianne Flor
+- Dela Cruz, Aira Leigh
 
