@@ -1,6 +1,6 @@
 # Online College Information Management
 
-<a href="https://imgflip.com/gif/5t6lp4">via Imgflip</a></p></div>
+<a href="https://imgflip.com/gif/5t6lup"><img src="https://imgflip.com/gif/5t6lup" /></a>
 
 ## Table of contents
 * [General info](#general-info)
