@@ -1,4 +1,4 @@
-# Online College Information Management
+# Online College Information Management System
 
 ## Table of contents
 * [General info](#general-info)
