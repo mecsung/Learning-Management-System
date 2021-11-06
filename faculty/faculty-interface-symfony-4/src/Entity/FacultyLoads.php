@@ -2,13 +2,15 @@
 
 namespace App\Entity;
 
+use App\Repository\FacultyLoadsRepository;
+use App\Repository\FacultyRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * FacultyLoads
  *
  * @ORM\Table(name="faculty_loads")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass=FacultyLoadsRepository::class)
  */
 class FacultyLoads
 {
@@ -41,6 +43,11 @@ class FacultyLoads
      * @ORM\Column(name="course_name", type="string", length=255, nullable=false)
      */
     private $courseName;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $class;
 
     public function getId(): ?int
     {
@@ -79,6 +86,18 @@ class FacultyLoads
     public function setCourseName(string $courseName): self
     {
         $this->courseName = $courseName;
+
+        return $this;
+    }
+
+    public function getClass(): ?string
+    {
+        return $this->class;
+    }
+
+    public function setClass(string $class): self
+    {
+        $this->class = $class;
 
         return $this;
     }

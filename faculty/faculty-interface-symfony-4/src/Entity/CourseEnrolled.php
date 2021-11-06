@@ -2,13 +2,14 @@
 
 namespace App\Entity;
 
+use App\Repository\CourseEnrolledRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * CourseEnrolled
  *
  * @ORM\Table(name="course_enrolled")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass=CourseEnrolledRepository::class)
  */
 class CourseEnrolled
 {

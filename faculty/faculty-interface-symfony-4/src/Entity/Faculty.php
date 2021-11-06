@@ -2,7 +2,8 @@
 
 namespace App\Entity;
 
-use App\Repository\facultyRepository; //create faculty repository
+use App\Repository\FacultyRepository;
+use App\Repository\FacultyLoadsRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;

@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %} Faculty Dashboard {% endblock %}
+{% block title %} Grade my Student {% endblock %}
 
 {% block stylesheets %}
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico"/>
@@ -10,6 +10,12 @@
 	<script src="https://kit.fontawesome.com/575abfd474.js" crossorigin="anonymous"></script>
 	<!-- BOOTSTRAP -->
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+
+    <style>
+        body {
+            background: #EEEEEE;
+        }
+    </style>
 {% endblock %}
 
 {% block body %}
@@ -28,7 +34,7 @@
             <div class="sidebar-menu">
                 <center class="profile">
                     <img src="assets/logo.png" alt="">
-                    <p><?php echo $_SESSION['username']; ?></p>
+                    <p>{{ app.user.username }}</p>
                 </center>
                 <hr></hr>
                 <li class="item">
@@ -52,13 +58,17 @@
                     </a>
                 </li>
                 
-                <!-- Button trigger modal -->	
+                <!-- Button trigger modal -->   
                 <li class="item">
                     <div class="menu-btn">
-                        <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                            <i class="fas fa-sign-out-alt"></i>Logout
-                        </button>
-                    </div>	
+                        {% if app.user %}
+                        <a href="{{ path('app_logout') }}">
+                            <button>
+                                <i class="fas fa-sign-out-alt"></i>Logout
+                            </button>
+                        </a>
+                        {% endif %}
+                    </div>  
                 </li>
             </div>
         </div>
