@@ -2,6 +2,7 @@
 
 ## Table of contents
 * [General info](#general-info)
+* [SRS Dcoumentation](#general-info)
 * [Technologies](#technologies)
 * [Contributors](#contributors)
 
