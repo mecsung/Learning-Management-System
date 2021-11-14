@@ -41,7 +41,7 @@
             <div class="sidebar-menu">
                 <center class="profile">
                     <img src="assets/logo.png" alt="">
-                    <p>{{ app.user.username }}</p>
+                    <p>{{ app.user.fullname }}</p>
                 </center>
                 <hr></hr>
                 <li class="item">
@@ -87,30 +87,30 @@
             </div>
             <hr></hr>
             <h5>My List of Classes</h5>
-            <table class="table table-hover">
-                <tr>
-                    <th>Course Name          </th>
-                    <th>Program and Class    </th>
-                    <th>Action</th>
-                </tr>
-
-                {% for a in all %}
-                <tbody>
+            <div class="table">
+                <table class="table table-hover">
                     <tr>
-                        <td>{{ a.coursename }}</td>
-                        <td>{{ a.class }}</td>
-                        <td>
-                            <div class="view">
-                                
-                                <a href="{{ path('view', {'id':a.id,'course':a.coursename,'class':a.class}) }}">View Students</a>
-                            </div>
-                        </td>
+                        <th>Course Name          </th>
+                        <th>Program and Class    </th>
+                        <th>Action</th>
                     </tr>
-                </tbody>
-                {% endfor %}
-            </table>
 
-
+                    {% for a in all %}
+                    <tbody>
+                        <tr>
+                            <td>{{ a.coursename }}</td>
+                            <td>{{ a.class }}</td>
+                            <td>
+                                <div class="view">
+                                    
+                                    <a href="{{ path('view', {'id':a.id,'course':a.coursename,'class':a.class}) }}">View Students</a>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                    {% endfor %}
+                </table>
+            </div>
         </div>
         <!--main container end-->
     </div>

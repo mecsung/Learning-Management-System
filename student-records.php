@@ -238,14 +238,16 @@
 												preg_match_all($expr, $hori['program'], $matches);
 												$imp = implode('', $matches[0]);
 												$short = strtoupper($imp);
+												$yt = $hori['entlev'] . " " . $hori['term'];
 											?>
 											
-											<td> <?php echo $hori['entlev'] . " " . $hori['term']; ?> 		</td>
+											<td> <?php echo $yt; ?> 		</td>
 											<td> <?php echo $hori['enroll_date']; ?>							</td>
 											<td> <?php echo $short . " - " . $hori['class']; ?>	</td>
 											<td>
 											
-											<a href="enroll-courses.php?id=<?php echo $id; ?>">View Enrolled Courses</a>
+											<a href="enroll-courses.php?id=<?php echo $id; ?>
+											&yt_id=<?php echo $yt; ?>">View Enrolled Courses</a>
 											
 											</td>
 										</tr>

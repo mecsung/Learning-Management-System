@@ -15,6 +15,16 @@
         body {
             background: #EEEEEE;
         }
+        .search {
+            float: right;
+            width: 200px;
+            height: 40px;
+            border-radius: 2em;
+            padding: 10px;
+            border: none;
+            box-shadow: 10px 10px 15px grey;
+            font-size: 14px;
+        }
     </style>
 {% endblock %}
 
@@ -34,7 +44,7 @@
             <div class="sidebar-menu">
                 <center class="profile">
                     <img src="assets/logo.png" alt="">
-                    <p>{{ app.user.username }}</p>
+                    <p>{{ app.user.fullname }}</p>
                 </center>
                 <hr></hr>
                 <li class="item">
@@ -80,8 +90,55 @@
             </div>
             <hr></hr>
 
-            <h5>Create Grade Component</h5>
-
+            <h5>Student Grading</h5>
+            <button type="button" class="btn btn-success">Create Grade Component</button>
+            <input class="search" name="search" type="search" placeholder="Type search..." aria-label="Search">
+            <br><br>
+            <div class="grades">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Grade Range</th>
+                            <th>Grade Point</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>96-100</td>
+                            <td>4.0</td>
+                        </tr>
+                        <tr>
+                            <td>90-95</td>
+                            <td>3.5</td>
+                        </tr>
+                        <tr>
+                            <td>84-89</td>
+                            <td>3.0</td>
+                        </tr>
+                        <tr>
+                            <td>78-83</td>
+                            <td>2.5</td>
+                        </tr>
+                        <tr>
+                            <td>72-77</td>
+                            <td>2.0</td>
+                        </tr>
+                        <tr>
+                            <td>66-71</td>
+                            <td>1.5</td>
+                        </tr>
+                        <tr>
+                            <td>60-65</td>
+                            <td>1.0</td>
+                        </tr>
+                        <tr>
+                            <td>59 and below</td>
+                            <td>R</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
         </div>
         <!--main container end-->
     </div>

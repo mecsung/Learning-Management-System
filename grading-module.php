@@ -95,11 +95,44 @@
 				
 				<hr></hr>
 				
-				<h3>Grading</h3>
+				<h4>Student Grades</h4>
 				
-				
-				
-				
+				<div class="table">
+					<table class="table table-bordered">
+						<thead>
+						<tr>
+							<th> Student no.  		</th>
+							<th> Name				</th>
+							<th> Program & Class	</th>
+							<th> Year				</th>
+							<th> Term				</th>
+						</tr>
+						</thead>
+
+					<tbody>
+					<?php
+						error_reporting(E_ERROR | E_PARSE);
+						
+						$res = mysqli_query ($connection, "SELECT * FROM students");
+						while ($rows = mysqli_fetch_array($res)) {
+						?>
+							<tr>
+							<td> <?php echo $rows['idnum']; ?> 	</td>
+							<td>
+								<a href="student-records.php?id=<?php echo $rows['id']; ?>">
+									<?php echo $rows['fname'] ." ". substr($rows['mname'], 0, 1) .". ". $rows['lname']; ?> 
+								</a>
+							</td>
+							<td> <?php echo $rows['program'] ." - ". $rows['class']; ?> </td>
+							<td> <?php echo $rows['entlev']; ?> 						</td>
+							<td> <?php echo $rows['term']; ?>							</td>
+						</tr>
+					<?php
+						}
+					?>
+					</tbody>
+					</table>
+				</div>	
 			</div>
             <!--main container end-->
         </div>

@@ -32,28 +32,33 @@
 			$result = $stmt->get_result();
 			$user = $result->fetch_assoc();
 			
-			if (password_verify($password, $user['password'])) {
-				$_SESSION['id'] = $user['id'];
-				$_SESSION['username'] = $user['username'];
-				$_SESSION['email'] = $user['email'];
-				// SET FLASH MESSAGE
-				$_SESSION['message'] = "You are now logged in!";
-				$_SESSION['alert-class'] = "alert-sucess";
-				header('location: admin-dashboard.php');
-				exit();
-			}
-			else if ($password == $user['password']) {
-				$_SESSION['id'] = $user['id'];
-				$_SESSION['username'] = $user['username'];
-				$_SESSION['email'] = $user['email'];
-				// SET FLASH MESSAGE
-				$_SESSION['message'] = "You are now logged in!";
-				$_SESSION['alert-class'] = "alert-sucess";
-				header('location: admin-dashboard.php');
-				exit();
+			if ($user['verified'] == 0) {
+				$errors['login'] = "Unknown user or password";
 			}
 			else {
-				$errors['login'] = "Unknown user or password";
+				if (password_verify($password, $user['password'])) {
+				$_SESSION['id'] = $user['id'];
+				$_SESSION['username'] = $user['username'];
+				$_SESSION['email'] = $user['email'];
+				// SET FLASH MESSAGE
+				$_SESSION['message'] = "You are now logged in!";
+				$_SESSION['alert-class'] = "alert-sucess";
+				header('location: admin-dashboard.php');
+				exit();
+				}
+				else if ($password == $user['password']) {
+					$_SESSION['id'] = $user['id'];
+					$_SESSION['username'] = $user['username'];
+					$_SESSION['email'] = $user['email'];
+					// SET FLASH MESSAGE
+					$_SESSION['message'] = "You are now logged in!";
+					$_SESSION['alert-class'] = "alert-sucess";
+					header('location: admin-dashboard.php');
+					exit();
+				}
+				else {
+					$errors['login'] = "Unknown user or password";
+				}
 			}
 		}
 	}
@@ -278,7 +283,7 @@
 			$newsql = "UPDATE students SET entlev='$entlev', term='$term', program='$program', 
 			class='$class', academic_year='$academic_year' WHERE idnum='$idnum' ";
 			mysqli_query($connection, $newsql);
-			
+
 			$result = mysqli_query($connection, $sql);
 			if ($result == TRUE) 
 				{
@@ -664,7 +669,7 @@
 			$stmt->bind_param('sssss', $idnum, $fullname, $year_term, $program_class, $value);
 			$stmt->execute();	
 		}
-		header("location: enroll-courses.php?id=$id");
+		header("location: enroll-courses.php?id=$id&yt_id=$year_term");
 	}
 	//************************* ASSIGN FACULTY COURSE LOADS ****************************
 	if (isset($_POST['facultyLoads'])) {

@@ -15,6 +15,11 @@
         body {
             background: #EEEEEE;
         }
+        .profiler {
+            padding: 5%;
+            background: white;
+            box-shadow: 10px 10px 15px grey;
+        }
     </style>
 {% endblock %}
 
@@ -34,7 +39,7 @@
             <div class="sidebar-menu">
                 <center class="profile">
                     <img src="assets/logo.png" alt="">
-                    <p>{{ app.user.username }}</p>
+                    <p>{{ app.user.fullname }}</p>
                 </center>
                 <hr></hr>
                 <li class="item">
@@ -79,7 +84,15 @@
                 <p>Profile / </p>
             </div>
             <hr></hr>
-
+            <div class="profiler">
+                <label style="font-size: 20px; font-weight: bold;">{{ app.user.fullname }}</label>,
+                {{ app.user.special }} <br>
+                <label>ID : </label> {{ app.user.facultyid }}<br>
+                <label>Status : </label> {{ app.user.status }}<br>
+                <label>Personal Email : </label> {{ app.user.email }}<br>
+                <label>School Email : </label> {{ app.user.username }}<br>
+                <label>Employment Date : </label> {{ app.user.regdate }}<br>
+            </div>
         </div>
         <!--main container end-->
     </div>

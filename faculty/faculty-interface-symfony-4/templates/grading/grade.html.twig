@@ -1,9 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %} View My Students {% endblock %}
+{% block title %} Grade my Student {% endblock %}
 
 {% block stylesheets %}
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico"/>
+	<!-- CUSTOM STYLESHEET -->
+	<link rel="stylesheet" href="assets/grading.css">
 	<!-- FONT AWESOME -->
 	<script src="https://kit.fontawesome.com/575abfd474.js" crossorigin="anonymous"></script>
 	<!-- BOOTSTRAP -->
@@ -141,6 +143,34 @@
         table {
             font-size: 15px;
         }
+        .search {
+            float: right;
+            width: 200px;
+            height: 40px;
+            border-radius: 2em;
+            padding: 10px;
+            border: none;
+            box-shadow: 10px 10px 15px grey;
+            font-size: 14px;
+        }
+        .flex {
+            display: flex;
+            flex-direction: row;
+        }
+        .grades {
+            width: 20%;
+            border: 1px solid grey;
+            padding: 1%;
+        }
+        .add-grades {
+            width: 80%;
+            border: 1px solid grey;
+            border-left: none;
+            padding: 1%;
+        }
+        .save {
+            float: right;
+        }
     </style>
 {% endblock %}
 
@@ -170,12 +200,12 @@
                 </li>
                 <li class="item">
                     <a href="/student" class="menu-btn">
-                        <span><i class="fas fa-graduation-cap"></i>Student</span>
+                        <i class="fas fa-graduation-cap"></i>Student
                     </a>
                 </li>
                 <li class="item">
                     <a href="/grading" class="menu-btn">
-                        <i class="fas fa-file-excel"></i>Grading
+                        <span><i class="fas fa-file-excel"></i>Grading</span>
                     </a>
                 </li>
                 <li class="item">
@@ -202,44 +232,97 @@
         <!--main container start-->
         <div class="content">
             <div class="directory">
-                <p>My Classes / My Students </p>
+                <p>Grading / Grade my Student</p>
             </div>
             <hr></hr>
-            
-            <h5>My Students in <span>{{ course.coursename }}</span> | <span>{{ course.class }}</span></h5>
-            <br>
-            <table class="table table-bordered">
-                <tr>
-                    <th>Student Name            </th>
-                    <th>Midterm                 </th>
-                    <th>Final                   </th>
-                    <th>Grade                   </th>
-                    <th>Remark                  </th>
-                    <th>Action                  </th>
-                </tr>
-                {% for s in students %}
-                <tbody>
-                    <tr>
-                        <td>{{ s.fullname }}</td>
-                        <td>{{ s.Midterm }}</td>
-                        <td>{{ s.Final }}</td>
-                        <td>{{ s.Grade }}</td>
-                        <td>{{ s.Remarks }}</td>
 
-                        <td>
-                            {% if s.Remarks != NULL %}
-                            <label style="color: green;">Grade Submitted</label>
-                            <a style="text-decoration: none; color: blue;" href="{{ path('grade', {'id':s.id,'course':s.course,'fullname':s.fullname}) }}">| Edit |</a>
-                            {% else %}
-                            <a style="text-decoration: none; color: red;" href="{{ path('grade', {'id':s.id,'course':s.course,'fullname':s.fullname}) }}">Grade</a>
-                            {% endif %}
-                        </td>
-                    </tr>
-                </tbody>
-                {% endfor %}
-            </table>
+            <h5>Student Grading</h5>
+                <button type="button" class="btn btn-danger" style="width: 100px;">
+                Back</button>
+            <input class="search" name="search" type="search" placeholder="Type search..." aria-label="Search">
+            <br><br>
+            <div class="flex">
+                <div class="grades">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Grade Range</th>
+                                <th>Grade Point</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>96-100</td>
+                                <td>4.0</td>
+                            </tr>
+                            <tr>
+                                <td>90-95</td>
+                                <td>3.5</td>
+                            </tr>
+                            <tr>
+                                <td>84-89</td>
+                                <td>3.0</td>
+                            </tr>
+                            <tr>
+                                <td>78-83</td>
+                                <td>2.5</td>
+                            </tr>
+                            <tr>
+                                <td>72-77</td>
+                                <td>2.0</td>
+                            </tr>
+                            <tr>
+                                <td>66-71</td>
+                                <td>1.5</td>
+                            </tr>
+                            <tr>
+                                <td>60-65</td>
+                                <td>1.0</td>
+                            </tr>
+                            <tr>
+                                <td>59 and below</td>
+                                <td>R</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
 
-
+                <div class="add-grades">
+                    {{ form_start(form) }}
+                    <table class="table table-hover">
+                        <tr>
+                            <th>Course Name          </th>
+                            <th>Name    </th>
+                            <th>Interim 1</th>
+                            <th>Midterm</th>
+                            <th>Interim 2</th>
+                            <th>Final</th>
+                            <th>Grade</th>
+                            <th>Remark</th>
+                        </tr>
+                            {% for s in students %}
+                            <tbody>
+                                <tr>
+                                    <td>{{ s.course }}</td>
+                                    <td>{{ s.fullname }}</td>
+                                    
+                                    <td>{{ form_row(form.interim1) }}</td>
+                                    <td>{{ form_row(form.midterm) }}</td>
+                                    <td>{{ form_row(form.interim2) }}</td>
+                                    <td>{{ form_row(form.final) }}</td>
+                                    
+                                    <td>{{ s.Grade }}</td>
+                                    <td>{{ s.Remarks }}</td>
+                                </tr>
+                            </tbody>
+                            {% endfor %}
+                    </table>
+                    <div class="save">
+                        {{ form_row(form.save) }}
+                    </div>
+                    {{ form_end(form) }}
+                </div>
+            </div> 
         </div>
         <!--main container end-->
     </div>

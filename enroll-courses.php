@@ -111,7 +111,8 @@
 				<form action="enroll-courses.php" method="POST">
 					<?php
 						$id = $_GET['id'];
-						
+						$year_term = $_GET['yt_id'];
+
 						error_reporting(E_ERROR | E_PARSE);
 						$res = mysqli_query ($connection, "SELECT * FROM students WHERE id='$id'");
 						while ($row = mysqli_fetch_array($res))
@@ -180,12 +181,13 @@
 								<i class="fas fa-backspace"></i>
 							</button>
 						</a>
-						
-						<a href="">
-							<button type="button" class="btn btn-success">Print COR
+
+						<button type="submit" class="btn btn-success" name="print-grades">
+							<a style="text-decoration: none; color: white;" href="PrintCOR-student.php?id=<?php echo $idnum; ?>" 
+								target="_blank">Print Grades
 								<i class="fas fa-file-download"></i>
-							</button>
-						</a>
+							</a>
+						</button>
 					</div>
 			
 					<!-- REGISTRATION FORM -->
@@ -198,8 +200,10 @@
 								<label>
 								<b>ID Number: </b><?php echo $idnum;?><br>
 								<b>Name: </b><?php echo $name;?><br>
-								<b>Year/Class: </b><?php echo $entlev ." ". $rprogram . " - " . $class;?><br>
-								<b>Term: </b><?php echo $term;?>
+								<b>Program/Class: </b>
+								<?php echo $rprogram . " - " . $class;?><br>
+
+								<b>Year/Term: </b><?php echo $year_term;?>
 								</label>
 								<button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#enrollCourseModal">Assign Course
 									<i class="fas fa-plus"></i>
@@ -224,18 +228,61 @@
 									<tbody>
 										<?php
 										error_reporting(E_ERROR | E_PARSE);
-										$year_term = $entlev ." ". $term;
+										$year_term = $_GET['yt_id'];
 										
-										$sql = mysqli_query($connection, "SELECT * FROM course_enrolled WHERE idnum='$idnum'");
+										$sql = mysqli_query($connection, "SELECT * FROM course_enrolled WHERE idnum='$idnum' AND
+											year_term='$year_term' ");
 										while ($res = mysqli_fetch_array($sql)) {?>
 											<tr>
 												<td><?php echo $res['course']; ?></td>
-												<td><i>None</i></td>
-												<td><i>None</i></td>
-												<td><i>None</i></td>
-												<td><i>None</i></td>
-												<td><i>None</i></td>
-												<td><i>None</i></td>
+												<td><i><?php 
+													if ($res['Interim1'] == NULL) {
+														echo "No grade yet";
+													}
+													else {
+														echo $res['Interim1']; 
+													}
+												?></i></td>
+												<td><i><?php
+													if ($res['Midterm'] == NULL) {
+														echo "No grade yet";
+													}
+													else {
+														echo $res['Midterm']; 
+													}
+												?></i></td>
+												<td><i><?php
+													if ($res['Interim2'] == NULL) {
+														echo "No grade yet";
+													}
+													else {
+														echo $res['Interim2']; 
+													}
+												?></i></td>
+												<td><i><?php
+													if ($res['Final'] == NULL) {
+														echo "No grade yet";
+													}
+													else {
+														echo $res['Final']; 
+													}
+												?></i></td>
+												<td><i><?php
+													if ($res['Grade'] == NULL) {
+														echo "No grade yet";
+													}
+													else {
+														echo $res['Grade']; 
+													}
+												?></i></td>
+												<td><i><?php
+													if ($res['Remarks'] == NULL) {
+														echo "No grade yet";
+													}
+													else {
+														echo $res['Remarks']; 
+													}
+												?></i></td>
 											</tr>
 										<?php }
 										?>
@@ -272,7 +319,6 @@
 												<th> Year			</th>
 												<th> Program		</th>
 												<th> Units			</th>
-												<th> Status			</th>
 											</tr>
 											</thead>
 
@@ -296,7 +342,6 @@
 													?>
 												</td>
 												<td><?php echo $rows['units']; ?></td>
-												<td><?php echo $rows['status']; ?></td>
 											</tbody>
 
 											<?php }

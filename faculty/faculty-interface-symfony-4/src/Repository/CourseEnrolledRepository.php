@@ -62,4 +62,19 @@ class CourseEnrolledRepository extends ServiceEntityRepository
         // returns an array of Product objects
         return $query->getResult();
     }
+    public function findmyStudent(string $search1, string $search2): array
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT u
+            FROM App\Entity\CourseEnrolled u
+            WHERE u.course = :course
+            AND u.fullname = :fullname'
+        )->setParameter('course', $search1)
+        ->setParameter('fullname', $search2);
+        
+        // returns an array of Product objects
+        return $query->getResult();
+    }
 }

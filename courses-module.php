@@ -140,7 +140,6 @@
 											<th> Units				</th>
 											<th> Year				</th>
 											<th> Program			</th>
-											<th> Status				</th>
 										</tr>
 										</thead>
 										<tbody>
@@ -166,14 +165,6 @@
 											<td><?php echo $rows['units']; ?></td>
 											<td><?php echo $rows['entlev']; ?></td>
 											<td><?php echo $rows['program']; ?></td>
-											<td>
-												<?php 
-												if ($rows['status'] == 'enable') { ?>
-													<a title="<?php echo $rows['id']; ?>" class="enable" title="click to disable" data-bs-toggle="modal" 
-													data-bs-target="#turnOff<?php echo $rows['id']; ?>"><label><b>enable</b></label></a>
-												<?php }
-												?>
-											</td>
 										</tr>
 
 										<!-- Disable -->

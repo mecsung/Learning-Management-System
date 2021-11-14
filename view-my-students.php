@@ -173,10 +173,10 @@
                             </div>
                             <div class="modal-body">
                                 
-                                <input name="id" value="<?php echo $id; ?>" >
-                                <input name="course_name" value="<?php echo $course_name; ?>" >
-                                <input name="faculty_id" value="<?php echo $faculty_id; ?>" >
-                                <input name="fullname" value="<?php echo $fullname; ?>" >
+                                <input hidden name="id" value="<?php echo $id; ?>" >
+                                <input  name="course_name" value="<?php echo $course_name; ?>" >
+                                <input hidden name="faculty_id" value="<?php echo $faculty_id; ?>" >
+                                <input hidden name="fullname" value="<?php echo $fullname; ?>" >
 
                                 <div class="table">
                                     <table class="table table-striped">
