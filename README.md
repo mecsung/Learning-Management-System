@@ -6,6 +6,8 @@
 * [Technologies](#technologies)
 * [Contributors](#contributors)
 
+![image](https://user-images.githubusercontent.com/90955780/170179431-5d3731a1-d042-42e0-83fb-4bd7ead83973.png)
+
 ## General info
 The manual process of enrolling and grading can be challenging and inefficient. It isn't easy to achieve efficiency and reliability using manual work. This manual process is very inconsistent, requires more time, and leaves a lot of room for errors. Furthermore, it takes more effort and physical space to keep track of the students' documents, keep details secure, and it is hard to make changes.
 
